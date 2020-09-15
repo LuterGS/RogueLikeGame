@@ -33,6 +33,7 @@ public class Field {
     	if(way == '우') {
     		map.map_x += len;
     	}
+    	
     }
 
     private void assignMonster(){
