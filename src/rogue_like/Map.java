@@ -13,7 +13,17 @@ public class Map {
     String mapName;
     String errorMessage = "";
     boolean isValid;
-
+    
+    public Map(String fileName) {	//동근: Map이 invalid하다고 가정하고 변수 초기화 (어차피 valid하면 나중에 올바른 값으로 바꾸기 땜에)
+    	map = new int[0][0];        // 여기엔 맵의 2차원 정보가 들어옴
+        monsterNum = -1;
+        safehouseNum = -1;
+        storeNum = -1;
+        isValid = false;             // 이거도 valid할때만 true를 return 하도록 해야함.
+        mapName = fileName;         // 임시로 이렇게 설정해뒀지만, 여기서 mapName은 텍스트 파일의 이름을 가지도록 설정해야 함
+        randomNum = -1;              // 랜덤한 이벤트가 일어날 장소의 개수
+        errorMessage = "";          // 만약 맵 체크 시 오류가 발생하면 여기에 어떤 오류가 발생했는지 넣어줌 (이건 막 생각한거긴 함)
+    }
 
     public static Map[] loadMaps(){
 
@@ -28,7 +38,6 @@ public class Map {
 
     public static Map loadMap(String fileName){
 
-        Map map = new Map();
         File mapFile = new File(fileName);      //맵을 읽어옴
 
         /*
@@ -38,22 +47,83 @@ public class Map {
 
         난이도는 나중에 게임에서 설정 가능하도록
          */
-
-        map.map = new int[3][3];        // 여기엔 맵의 2차원 정보가 들어옴
-        map.monsterNum = 3;
-        map.safehouseNum = 3;
-        map.storeNum = 2;
-        map.isValid = true;             // 이거도 valid할때만 true를 return 하도록 해야함.
-        map.mapName = fileName;         // 임시로 이렇게 설정해뒀지만, 여기서 mapName은 텍스트 파일의 이름을 가지도록 설정해야 함
-        map.randomNum = 3;              // 랜덤한 이벤트가 일어날 장소의 개수
-        map.errorMessage = "";          // 만약 맵 체크 시 오류가 발생하면 여기에 어떤 오류가 발생했는지 넣어줌 (이건 막 생각한거긴 함)
-
+        String[][] input = {{}}; //mapFile의 내용을 map 형태로 담고 있는 2차원 배열
+        Map map = new Map(fileName);
+        map = validate(map, input);
+        return map;
+    }
+    
+    public static Map validate(Map map, String[][] stringMap) {
+    	if (!isRect(stringMap)) {
+        	map.errorMessage = "맵이 사각형꼴이 아닙니다";
+        	System.out.println(map.errorMessage);
+    	}
+        else if(!isSingleDigitInt(stringMap)) {
+        	map.errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
+        	System.out.println(map.errorMessage);
+        }
+        else 
+        	map.map = intCast(stringMap);
         return map;
     }
 
+    public static boolean isRect(String[][] stringMap) {
+    	int row_len = stringMap[0].length;
+    	for(int i = 1; i < stringMap.length; i++) {
+    		if(stringMap[i].length != row_len) return false;
+    	}
+    	return true;
+    }
+    
+    public static boolean isSingleDigitInt(String[][] stringMap) {
+    	for(int i = 0; i < stringMap.length; i++) {
+    		for(int j = 0; j < stringMap[i].length; j++) {
+    			int tmp;
+    			try {
+    				tmp = Integer.parseInt(stringMap[i][j]); 
+    			}
+    			catch (NumberFormatException e){
+    				return false;
+    			}
+    			if (tmp < 0 || tmp >9) return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    public static int[][] intCast(String[][] stringMap) {
+    	int[][] intMap = new int[stringMap.length][stringMap[0].length];
+    	for(int i = 0; i < stringMap.length; i++) {
+    		for(int j = 0; j < stringMap[i].length; j++) {
+    			intMap[i][j] = Integer.parseInt(stringMap[i][j]); 
+    		}
+    	}
+    	return intMap;
+    }
+    
     public boolean isReachable(int[][] intMap){
 
         //astar나 bfs등의 알고리즘을 이용해 맵이 종착지까지 갈 수 있는지 탐색 후, 갈 수 있으면 true, 아니면 false return
         return true;
     }
+    
+    /*
+    public static void main(String[] args) {
+    	String[][] dummy_input = {{"1", "9", "1", "1", "1"}, // 0:길, 1:벽, 8:시작, 9:끝
+    							  {"1", "0", "1", "1", "1"},
+    							  {"1", "0", "0", "1", "1"},
+    							  {"1", "1", "0", "0", "1"},
+    							  {"1", "1", "1", "8", "1"}};
+    	Map map = new Map("test_dummy");
+    	map = validate(map, dummy_input);
+    
+    	for(int i = 0; i < map.map.length; i++) {
+    		for(int j = 0; j < map.map[i].length; j++) {
+    			System.out.print(map.map[i][j]);
+    			System.out.print(" ");
+    		}
+    		System.out.println();
+    	}
+    }*/
+ 
 }
