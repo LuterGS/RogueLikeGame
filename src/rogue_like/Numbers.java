@@ -23,10 +23,10 @@ public class Numbers {
 	
 	//이 비율은 게임 벨런스 및 컨턴츠 내용 조정에서 확인하고 수정해야될 사항
 	//임시로 지정한 것이므로 마음대로 바꿔서 확인...
-	public static double MAX_MONSTER_TO_ZERO = 0.2;
-	public static double MAX_SAFEHOUSE_TO_ZERO = 0.2;
-	public static double MAX_STORE_TO_ZERO = 0.1;
-	public static double MIN_MONSTER_TO_ZERO = 0.1;
-	public static double MIN_SAFEHOUSE_TO_ZERO = 0.1;
-	public static double MIN_STORE_TO_ZERO = 0.05;
+	public static double MAX_MONSTER_TO_PATH = 0.2;
+	public static double MAX_SAFEHOUSE_TO_PATH = 0.2;
+	public static double MAX_STORE_TO_PATH = 0.1;
+	public static double MIN_MONSTER_TO_PATH = 0.1;
+	public static double MIN_SAFEHOUSE_TO_PATH = 0.1;
+	public static double MIN_STORE_TO_PATH = 0.05;
 }
