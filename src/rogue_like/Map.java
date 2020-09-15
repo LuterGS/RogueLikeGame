@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 
+
 public class Map {
 
     //맵에 관련된 로직을 처리하는 클래스. 맵 렌더링 후 전체값을 게임에 전달하는 부분 위주
@@ -162,11 +163,11 @@ public class Map {
         
         //유효성 검사
         map.isValid = validate(input);
-        
         if (map.isValid == false) {
         	System.out.println("map is not valid : " + map.mapName); //<----임시 구문
         	return map;
         }
+        
         //검사 통과 후 맵에 대입
         map.map = intCast(input);
         
@@ -181,8 +182,8 @@ public class Map {
         
         return map;
     }
-
-	private static void setEntity(Map map, int entity) {
+    
+    private static void setEntity(Map map, int entity) {
 		// TODO Auto-generated method stub
 		int r = 0;
 		int c = 0;
@@ -217,12 +218,11 @@ public class Map {
 		}
 		
 	}
-	
-	private static int getRandomInt(int max, int min) {
+    
+    private static int getRandomInt(int max, int min) {
 		return (int)(Math.random() * max) + min;
 	}
 
-	//return 타입 boolean으로 변경했습니다.
 	public static boolean validate(String[][] stringMap) {
     	if (!isRect(stringMap)) {
         	errorMessage = "맵이 사각형꼴이 아닙니다";
@@ -234,12 +234,13 @@ public class Map {
         	System.out.println(errorMessage);
         	return false;
         }
-        //else 
-        	//위에 map.map = intCast(input)구문을 저기다가 넣는게 좋을 거 같아서 주석처리 했습니다.
-        	//map = intCast(stringMap);
+        else if(!isReachable(intCast(stringMap))) {
+        	errorMessage = "시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다";
+        	System.out.println(errorMessage);
+        	return false;
+        }
     	
-    	
-    	//모든 검사 통과하면
+    	//모든 테스트 통과 후 true 반환
     	return true;
     }
 
@@ -267,7 +268,14 @@ public class Map {
     	return true;
     }
     
-    public static int[][] intCast(String[][] stringMap) {
+    public static boolean isReachable(int[][] map){//BFS
+    	Graph g = new Graph(map);
+    	if(g.isTraversable())
+    		return true;
+    	else return false;
+    }
+    
+    public static int[][] intCast(String[][] stringMap) { //String 배열에서 int 배열로 형변환
     	int[][] intMap = new int[stringMap.length][stringMap[0].length];
     	for(int i = 0; i < stringMap.length; i++) {
     		for(int j = 0; j < stringMap[i].length; j++) {
@@ -277,11 +285,6 @@ public class Map {
     	return intMap;
     }
     
-    public boolean isReachable(int[][] intMap){
-
-        //astar나 bfs등의 알고리즘을 이용해 맵이 종착지까지 갈 수 있는지 탐색 후, 갈 수 있으면 true, 아니면 false return
-        return true;
-    }
     
     /*
     public static void main(String[] args) {
