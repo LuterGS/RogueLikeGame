@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="554.5234375" y="0.0">rogue_like.Function</node>
+    <node x="352.09999999999997" y="392.0">rogue_like.Monster</node>
+    <node x="206.99999999999994" y="299.0">rogue_like.Player</node>
+    <node x="197.0" y="186.0">rogue_like.Vanguard</node>
+    <node x="57.39713541666663" y="299.0">rogue_like.Map</node>
+    <node x="237.7205729166667" y="0.0">rogue_like.Life</node>
+    <node x="282.09999999999997" y="103.0">rogue_like.Skill</node>
+    <node x="59.0" y="186.0">rogue_like.Assassin</node>
+    <node x="337.59999999999997" y="299.0">rogue_like.Names</node>
+    <node x="138.16666666666666" y="578.0">rogue_like.Main</node>
+    <node x="10.5" y="392.0">rogue_like.Checker</node>
+    <node x="356.79999999999995" y="186.0">rogue_like.Wizard</node>
+    <node x="149.5" y="392.0">rogue_like.Field</node>
+    <node x="138.16666666666666" y="495.0">rogue_like.Game</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="rogue_like.Player" target="rogue_like.Vanguard">
+      <point x="-5.399999999999977" y="-16.5" />
+      <point x="255.59999999999997" y="239.0" />
+      <point x="229.0" y="239.0" />
+      <point x="-32.0" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Monster" target="rogue_like.Life">
+      <point x="23.600000000000023" y="-16.5" />
+      <point x="434.7" y="362.0" />
+      <point x="492.52343749999994" y="362.0" />
+      <point x="492.52343749999994" y="63.0" />
+      <point x="309.2205729166667" y="63.0" />
+      <point x="27.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Assassin" target="rogue_like.Player">
+      <point x="32.0" y="16.5" />
+      <point x="145.0" y="249.0" />
+      <point x="244.79999999999995" y="249.0" />
+      <point x="-16.19999999999999" y="-16.5" />
+    </edge>
+    <edge source="rogue_like.Main" target="rogue_like.Game">
+      <point x="-22.0" y="-16.5" />
+      <point x="-22.0" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Game" target="rogue_like.Checker">
+      <point x="-27.5" y="-16.5" />
+      <point x="154.66666666666666" y="465.0" />
+      <point x="69.5" y="465.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Player" target="rogue_like.Assassin">
+      <point x="-27.0" y="-16.5" />
+      <point x="233.99999999999994" y="259.0" />
+      <point x="81.0" y="259.0" />
+      <point x="-32.0" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Vanguard" target="rogue_like.Skill">
+      <point x="32.0" y="-16.5" />
+      <point x="293.0" y="166.0" />
+      <point x="311.5" y="166.0" />
+      <point x="-19.599999999999994" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Vanguard" target="rogue_like.Life">
+      <point x="-32.0" y="-16.5" />
+      <point x="229.0" y="83.0" />
+      <point x="276.2205729166667" y="83.0" />
+      <point x="-5.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Game" target="rogue_like.Field">
+      <point x="-5.5" y="-16.5" />
+      <point x="176.66666666666666" y="445.0" />
+      <point x="165.83333333333331" y="445.0" />
+      <point x="-32.66666666666666" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Names" target="rogue_like.Monster">
+      <point x="24.5" y="16.5" />
+      <point x="0.0" y="-16.5" />
+    </edge>
+    <edge source="rogue_like.Player" target="rogue_like.Life">
+      <point x="-48.599999999999966" y="-16.5" />
+      <point x="212.39999999999998" y="279.0" />
+      <point x="27.69999999999999" y="279.0" />
+      <point x="27.69999999999999" y="53.0" />
+      <point x="243.2205729166667" y="53.0" />
+      <point x="-38.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Checker" target="rogue_like.Map">
+      <point x="0.0" y="-16.5" />
+      <point x="69.5" y="372.0" />
+      <point x="80.79713541666663" y="372.0" />
+      <point x="-15.599999999999994" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Game" target="rogue_like.Player">
+      <point x="27.5" y="-16.5" />
+      <point x="209.66666666666666" y="465.0" />
+      <point x="268.325" y="465.0" />
+      <point x="268.325" y="372.0" />
+      <point x="260.99999999999994" y="372.0" />
+      <point x="0.0" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Wizard" target="rogue_like.Life">
+      <point x="26.99999999999997" y="-16.5" />
+      <point x="437.79999999999995" y="73.0" />
+      <point x="298.2205729166667" y="73.0" />
+      <point x="16.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Player" target="rogue_like.Wizard">
+      <point x="37.80000000000001" y="-16.5" />
+      <point x="298.79999999999995" y="269.0" />
+      <point x="383.79999999999995" y="269.0" />
+      <point x="-27.0" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Game" target="rogue_like.Map">
+      <point x="-38.5" y="-16.5" />
+      <point x="143.66666666666666" y="475.0" />
+      <point x="0.0" y="475.0" />
+      <point x="0.0" y="362.0" />
+      <point x="65.19713541666664" y="362.0" />
+      <point x="-31.19999999999999" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Monster" target="rogue_like.Names">
+      <point x="-23.600000000000023" y="-16.5" />
+      <point x="387.49999999999994" y="362.0" />
+      <point x="362.09999999999997" y="362.0" />
+      <point x="-24.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Assassin" target="rogue_like.Skill">
+      <point x="32.0" y="-16.5" />
+      <point x="145.0" y="156.0" />
+      <point x="291.9" y="156.0" />
+      <point x="-39.19999999999999" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Skill" target="rogue_like.Life">
+      <point x="0.0" y="-16.5" />
+      <point x="331.09999999999997" y="83.0" />
+      <point x="287.2205729166667" y="83.0" />
+      <point x="5.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Skill" target="rogue_like.Player">
+      <point x="0.0" y="16.5" />
+      <point x="331.09999999999997" y="166.0" />
+      <point x="335.5" y="166.0" />
+      <point x="335.5" y="249.0" />
+      <point x="277.19999999999993" y="249.0" />
+      <point x="16.19999999999999" y="-16.5" />
+    </edge>
+    <edge source="rogue_like.Assassin" target="rogue_like.Life">
+      <point x="-32.0" y="-16.5" />
+      <point x="81.0" y="73.0" />
+      <point x="265.2205729166667" y="73.0" />
+      <point x="-16.5" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Monster" target="rogue_like.Player">
+      <point x="-47.19999999999999" y="-16.5" />
+      <point x="363.9" y="372.0" />
+      <point x="304.19999999999993" y="372.0" />
+      <point x="43.19999999999999" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Vanguard" target="rogue_like.Player">
+      <point x="32.0" y="16.5" />
+      <point x="293.0" y="239.0" />
+      <point x="266.4" y="239.0" />
+      <point x="5.400000000000034" y="-16.5" />
+    </edge>
+    <edge source="rogue_like.Player" target="rogue_like.Skill">
+      <point x="27.0" y="-16.5" />
+      <point x="287.99999999999994" y="259.0" />
+      <point x="346.29999999999995" y="259.0" />
+      <point x="346.29999999999995" y="166.0" />
+      <point x="350.7" y="166.0" />
+      <point x="19.600000000000023" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Field" target="rogue_like.Map">
+      <point x="-36.75000000000003" y="-16.5" />
+      <point x="161.74999999999994" y="362.0" />
+      <point x="111.99713541666662" y="362.0" />
+      <point x="15.599999999999994" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Wizard" target="rogue_like.Player">
+      <point x="27.0" y="16.5" />
+      <point x="437.79999999999995" y="279.0" />
+      <point x="309.59999999999997" y="279.0" />
+      <point x="48.60000000000002" y="-16.5" />
+    </edge>
+    <edge source="rogue_like.Wizard" target="rogue_like.Skill">
+      <point x="-27.00000000000003" y="-16.5" />
+      <point x="383.79999999999995" y="166.0" />
+      <point x="370.29999999999995" y="166.0" />
+      <point x="39.19999999999999" y="16.5" />
+    </edge>
+    <edge source="rogue_like.Field" target="rogue_like.Player">
+      <point x="12.249999999999972" y="-16.5" />
+      <point x="210.74999999999994" y="372.0" />
+      <point x="217.79999999999995" y="372.0" />
+      <point x="-43.19999999999999" y="16.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.5" x="663.6666666666666" y="325.3333333333332" />
+  <SelectedNodes>
+    <node>rogue_like.Assassin</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
