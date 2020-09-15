@@ -1,19 +1,17 @@
 package rogue_like;
 
-import java.io.*; 
 import java.util.*; 
   
 
-class Graph 
-{   
+class Graph {   
 	private int[][] map;
 	private ArrayList<Coor> coors;
     private int v_count;
     private LinkedList<Coor> adj[];
     
     
-    class Coor{
-    	int index, x, y;
+    class Coor {//map에서 좌표 하나를 의미
+    	int index, x, y; //index: linked list에서 index용
     	public Coor(int index, int x, int y) {
     		this.index = index;
     		this.x = x;
@@ -21,8 +19,7 @@ class Graph
     	}
     }
     
-    Graph(Map m) 
-    {	
+    Graph(Map m) {	
     	coors = new ArrayList<Coor>();
     	this.map = m.map;
     	setCoors();
@@ -33,7 +30,7 @@ class Graph
         seekEdges();
     }
     
-    void setCoors() {
+    void setCoors() {//map에서 이동 가능한 좌표 추출
     	int count = 0;
     	for(int i = 0; i < map.length; i++) {
     		for(int j = 0; j < map[i].length; j++) {
@@ -46,7 +43,7 @@ class Graph
     	}
     }
     
-    void seekEdges() {
+    void seekEdges() {//인접한 좌표끼리 edge 생성
     	for(int i = 0; i < coors.size()-1; i++) {
     		int cur_x = coors.get(i).x;
     		int cur_y = coors.get(i).y;
@@ -63,16 +60,14 @@ class Graph
     	}
     }
   
-    void addEdge(Coor v, Coor w) 
-    { 	
+    void addEdge(Coor v, Coor w) { 	
     	int i = v.index;
         adj[i].add(w); 
         int j = w.index;
         adj[j].add(v);
     } 
   
-    boolean isTraversable() 
-    {	
+    boolean isTraversable() {//BFS 알고리즘	
     	Coor v = coors.get(0);
     	int s = v.index;
         boolean visited[] = new boolean[v_count]; 
@@ -103,7 +98,7 @@ class Graph
         }
         return true;
     }
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
     	String[][] dummy_input = {{"1", "9", "1", "1", "1"}, // 0:길, 1:벽, 8:시작, 9:끝
 				  				  {"1", "0", "1", "0", "0"},
 				  				  {"1", "0", "0", "0", "0"},
@@ -113,5 +108,5 @@ class Graph
     	map.validate(dummy_input);
     	Graph g = new Graph(map);
     	System.out.println(g.isTraversable());
-    }
+    }*/
 }

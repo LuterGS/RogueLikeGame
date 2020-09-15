@@ -181,9 +181,10 @@ public class Map {
         	errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
         	System.out.println(errorMessage);
         }
-        //else 
-        	//위에 map.map = intCast(input)구문을 저기다가 넣는게 좋을 거 같아서 주석처리 했습니다.
-        	//map = intCast(stringMap);
+        else if(!isReachable()) {
+        	errorMessage = "시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다";
+        	System.out.println(errorMessage);
+        }
     }
 
     public static boolean isRect(String[][] stringMap) {
@@ -210,7 +211,14 @@ public class Map {
     	return true;
     }
     
-    public static int[][] intCast(String[][] stringMap) {
+    public boolean isReachable(){//BFS
+    	Graph g = new Graph(this);
+    	if(g.isTraversable())
+    		return true;
+    	else return false;
+    }
+    
+    public static int[][] intCast(String[][] stringMap) { //String 배열에서 int 배열로 형변환
     	int[][] intMap = new int[stringMap.length][stringMap[0].length];
     	for(int i = 0; i < stringMap.length; i++) {
     		for(int j = 0; j < stringMap[i].length; j++) {
@@ -220,11 +228,6 @@ public class Map {
     	return intMap;
     }
     
-    public boolean isReachable(int[][] intMap){
-
-        //astar나 bfs등의 알고리즘을 이용해 맵이 종착지까지 갈 수 있는지 탐색 후, 갈 수 있으면 true, 아니면 false return
-        return true;
-    }
     
     /*
     public static void main(String[] args) {
