@@ -2,6 +2,7 @@ package rogue_like;
 
 import java.io.File;
 
+
 public class Map {
 
     //맵에 관련된 로직을 처리하는 클래스. 맵 렌더링 후 전체값을 게임에 전달하는 부분 위주
@@ -47,24 +48,23 @@ public class Map {
 
         난이도는 나중에 게임에서 설정 가능하도록
          */
-        String[][] input = {{}}; //mapFile의 내용을 map 형태로 담고 있는 2차원 배열
+        String[][] input = {{}}; //우열님께서 데이터를 넣어주시면 됩니다
         Map map = new Map(fileName);
-        map = validate(map, input);
+        map.validate(input);
         return map;
     }
     
-    public static Map validate(Map map, String[][] stringMap) {
+    public void validate(String[][] stringMap) {
     	if (!isRect(stringMap)) {
-        	map.errorMessage = "맵이 사각형꼴이 아닙니다";
-        	System.out.println(map.errorMessage);
+        	errorMessage = "맵이 사각형꼴이 아닙니다";
+        	System.out.println(errorMessage);
     	}
         else if(!isSingleDigitInt(stringMap)) {
-        	map.errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
-        	System.out.println(map.errorMessage);
+        	errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
+        	System.out.println(errorMessage);
         }
         else 
-        	map.map = intCast(stringMap);
-        return map;
+        	map = intCast(stringMap);
     }
 
     public static boolean isRect(String[][] stringMap) {
