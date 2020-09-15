@@ -20,7 +20,7 @@ public class Map {
     int storeNum;
     int randomNum;
     String mapName;
-    static String errorMessage = "";
+    String errorMessage = "";
     boolean isValid;
     
     
@@ -114,11 +114,6 @@ public class Map {
         	 * */
         	ArrayList<String> temp_map = new ArrayList<>();
         	while ((line = br.readLine()) != null) {
-        		//내용 확인
-        		if (!line.matches(Numbers.MAP_LINE_REGEX)) {
-        			System.out.println("맵 구성 라인이 잘못되었습니다 : " + line);
-        			return map;
-        		}
         		temp_map.add(line);
         		
         	}
@@ -162,11 +157,7 @@ public class Map {
          */
         
         //유효성 검사
-        map.isValid = validate(input);
-        if (map.isValid == false) {
-        	System.out.println("map is not valid : " + map.mapName); //<----임시 구문
-        	return map;
-        }
+        map.validate(input);
         
         //검사 통과 후 맵에 대입
         map.map = intCast(input);
@@ -175,73 +166,25 @@ public class Map {
          * 맵이 완전히 유효 (시작과 끝이 있는 맵인지, entity들이 지정된 비율 내에 있는지...등등)한지
          * 확인 후에 맵의 PATH에 monster, store, safehouse를 배치
          */
-        setEntity(map, Numbers.MONSTER);
-        setEntity(map, Numbers.SAFEHOUSE);
-        setEntity(map, Numbers.STORE);
+        //setEntity(map);
         
         
         return map;
     }
-    
-    private static void setEntity(Map map, int entity) {
-		// TODO Auto-generated method stub
-		int r = 0;
-		int c = 0;
-		int count = 0;
-		
-		switch (entity) {
-		case Numbers.MONSTER:
-			count = map.monsterNum;
-			break;
-		case Numbers.SAFEHOUSE:
-			count = map.safehouseNum;
-			break;
-		case Numbers.STORE:
-			count = map.storeNum;
-			break;
-		default:
-			//nothing
-			break;
-		}
-		
-		//개수가 잘못되면 무한 루프로 갈 수 있으므로 반드시 맵 형식 확인한 후에 사용
-		for (int i=0; i<count; i++) {
-			r = getRandomInt(map.map.length-1, 0);
-			c = getRandomInt(map.map[0].length-1, 0);
-			
-			if (map.map[r][c] == Numbers.PATH) {
-				map.map[r][c] = entity;
-			}
-			else {
-				i--;
-			}
-		}
-		
-	}
-    
-    private static int getRandomInt(int max, int min) {
-		return (int)(Math.random() * max) + min;
-	}
 
-	public static boolean validate(String[][] stringMap) {
+	public void validate(String[][] stringMap) {
     	if (!isRect(stringMap)) {
         	errorMessage = "맵이 사각형꼴이 아닙니다";
         	System.out.println(errorMessage);
-        	return false;
     	}
         else if(!isSingleDigitInt(stringMap)) {
         	errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
         	System.out.println(errorMessage);
-        	return false;
         }
-        else if(!isReachable(intCast(stringMap))) {
+        else if(!isReachable()) {
         	errorMessage = "시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다";
         	System.out.println(errorMessage);
-        	return false;
         }
-    	
-    	//모든 테스트 통과 후 true 반환
-    	return true;
     }
 
     public static boolean isRect(String[][] stringMap) {
@@ -268,8 +211,8 @@ public class Map {
     	return true;
     }
     
-    public static boolean isReachable(int[][] map){//BFS
-    	Graph g = new Graph(map);
+    public boolean isReachable(){//BFS
+    	Graph g = new Graph(this);
     	if(g.isTraversable())
     		return true;
     	else return false;
