@@ -2,7 +2,7 @@ package rogue_like;
 
 public class Field {
 
-    private Map map;// 막힌곳 , 길, 휴식처, 상점, 몬스터(0,1,2,3,4) 
+    private Map map;// 막힌곳 , 길, 휴식처, 상점, 몬스터(0,1,2,3,4)
     private Player player = null;
 
     public Field(Map map, Player player){
