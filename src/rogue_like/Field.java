@@ -18,6 +18,23 @@ public class Field {
     public void move(String inputString){
         //필드에서 움직이는 메소드.
         //여기서 meetXXX이 일어나야 함.
+    	char way = inputString.charAt(0);
+    	int len = Character.getNumericValue(inputString.charAt(1));
+    	
+    	if(way == '상') {
+    		map.map_y -= len;
+    	}
+    	if(way == '하') {
+    		map.map_y += len;
+    	}
+    	if(way == '좌') {
+    		map.map_x -= len;
+    	}
+    	if(way == '우') {
+    		map.map_x += len;
+    	}
+    	
+    	
     }
 
     private void assignMonster(){
