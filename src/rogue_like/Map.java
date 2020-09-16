@@ -237,7 +237,7 @@ public class Map {
     							  {"1", "1", "0", "0", "1"},
     							  {"1", "1", "1", "8", "1"}};
     	Map map = new Map("test_dummy");
-    	map = validate(map, dummy_input);
+    	map.validate(dummy_input);
     
     	for(int i = 0; i < map.map.length; i++) {
     		for(int j = 0; j < map.map[i].length; j++) {
