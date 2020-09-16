@@ -32,7 +32,7 @@ class Graph {
         seekEdges();
     }
     
-    void setCoors() {//map에서 이동 가능한 좌표 추출
+    private void setCoors() {//map에서 이동 가능한 좌표 추출
     	int count = 0;
     	for(int i = 0; i < map.length; i++) {
     		for(int j = 0; j < map[i].length; j++) {
@@ -45,7 +45,7 @@ class Graph {
     	}
     }
     
-    void seekEdges() {//인접한 좌표끼리 edge 생성
+    private void seekEdges() {//인접한 좌표끼리 edge 생성
     	for(int i = 0; i < coors.size()-1; i++) {
     		int cur_x = coors.get(i).x;
     		int cur_y = coors.get(i).y;
@@ -62,14 +62,14 @@ class Graph {
     	}
     }
   
-    void addEdge(Coor v, Coor w) { 	
+    private void addEdge(Coor v, Coor w) { 	
     	int i = v.index;
         adj[i].add(w); 
         int j = w.index;
         adj[j].add(v);
     } 
   
-    boolean isTraversable() {//BFS 알고리즘	
+    public boolean isTraversable() {//BFS 알고리즘	
     	Coor v = coors.get(0);
     	int s = v.index;
         boolean visited[] = new boolean[v_count]; 

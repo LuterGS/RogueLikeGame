@@ -162,9 +162,9 @@ public class Map {
          */
         
         //유효성 검사
-        map.isValid = validate(input);
-        if (map.isValid == false) {
+        if (!map.validate(input)) { //메소드를 static으로 호출하면 errormessage가 적용이 nonstatic으로 수정했습니다 
         	System.out.println("map is not valid : " + map.mapName); //<----임시 구문
+        	System.out.println(map.errorMessage);
         	return map;
         }
         
@@ -223,7 +223,7 @@ public class Map {
 		return (int)(Math.random() * max) + min;
 	}
 
-	public static boolean validate(String[][] stringMap) {
+	public boolean validate(String[][] stringMap) {
     	if (!isRect(stringMap)) {
         	errorMessage = "맵이 사각형꼴이 아닙니다";
         	System.out.println(errorMessage);
@@ -231,6 +231,11 @@ public class Map {
     	}
         else if(!isSingleDigitInt(stringMap)) {
         	errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
+        	System.out.println(errorMessage);
+        	return false;
+        }
+        else if(!no0sInEdge(intCast(stringMap))) {
+        	errorMessage = "맵 가장자리에는 0이 올 수 없습니다";
         	System.out.println(errorMessage);
         	return false;
         }
@@ -268,6 +273,22 @@ public class Map {
     	return true;
     }
     
+    public static boolean no0sInEdge(int[][] map) {
+    	int row_len = map.length;
+    	int col_len = map[0].length;
+    	
+    	for(int i = 0; i < row_len; i++) {
+    		if(map[0][i] == 0 || map[col_len-1][i] == 0)
+    			return false;
+    	}
+    	
+    	for(int i = 1; i < col_len - 1; i++) {
+    		if(map[i][0] == 0 || map[i][row_len-1] == 0)
+    			return false;
+    	}
+    	return true;
+    }
+    
     public static boolean isReachable(int[][] map){//BFS
     	Graph g = new Graph(map);
     	if(g.isTraversable())
@@ -293,7 +314,7 @@ public class Map {
     							  {"1", "0", "0", "1", "1"},
     							  {"1", "1", "0", "0", "1"},
     							  {"1", "1", "1", "8", "1"}};
-    	Map map = new Map("test_dummy");
+    	Map map = new Map("1234");
     	map.validate(dummy_input);
     
     	for(int i = 0; i < map.map.length; i++) {
@@ -303,6 +324,6 @@ public class Map {
     		}
     		System.out.println();
     	}
-    }*/
- 
+    }
+ */
 }
