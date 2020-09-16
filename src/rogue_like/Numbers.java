@@ -7,7 +7,7 @@ public class Numbers {
     //상수 선언
     //ex) public static int monsterNum = 5;
 	
-	public static final String DOT = ".";
+	public static final String DOT_TXT = ".txt";
 	public static final String MAP_FILES_ROUTE = "maps" + File.separator; //맵 저장하는 maps라는 폴더 위치 경로
 	public static final String MAP_CONTENTS_DELIM = "/"; //맵 파일을 읽을 시에 구분할 구분자
 	public static final String FIRST_LINE_REGEX = "^([\\d]+)/([\\d]+)/([\\d]+)/([\\d]+)$"; //파일 첫번 째 줄이 맞는 형식인지 확인해주는 정규식
