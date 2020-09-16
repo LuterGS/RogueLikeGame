@@ -1,6 +1,8 @@
 package rogue_like;
 
-import java.util.*; 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList; 
   
 
 class Graph {   
@@ -19,9 +21,9 @@ class Graph {
     	}
     }
     
-    Graph(Map m) {	
+    Graph(int[][] m) {	
     	coors = new ArrayList<Coor>();
-    	this.map = m.map;
+    	this.map = m;
     	setCoors();
         v_count = coors.size();
         adj = new LinkedList[v_count]; 
