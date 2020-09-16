@@ -162,7 +162,7 @@ public class Map {
          */
         
         //유효성 검사
-        if (!map.validate(input)) { //메소드를 static으로 호출하면 errormessage가 적용이 nonstatic으로 수정했습니다 
+        if (!map.validate(input)) { //메소드를 static으로 호출하면 errormessage가 적용이 안돼서 nonstatic으로 수정했습니다 
         	System.out.println("map is not valid : " + map.mapName); //<----임시 구문
         	System.out.println(map.errorMessage);
         	return map;
