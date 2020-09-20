@@ -7,7 +7,7 @@ public class Field {
 	Random rand = new Random();
 	Scanner sc = new Scanner(System.in);
     private Map map;// 
-    private Player player = null;// 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점,  8:시작, 9:끝
+    private Player player = null;// 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점, 8:시작, 9:끝
 
     public Field(Map map, Player player){
         //맵에 대한 입력이 들어오면 맵을 만듬.
@@ -82,7 +82,7 @@ public class Field {
     		
     	}
     	//끝
-    	
+
     }
     // 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점,  8:시작, 9:끝
     private void assignMonster(){
@@ -153,18 +153,101 @@ public class Field {
     	System.out.println(player.name + "이/가 " + monster.name + "을 만났다!");
     	while(!(player.HP == 0 || monster.HP == 0)) {
         	player.attack(player);//Life에 일단은 player를 넣었음
+        	monster.attack(monster);
     	}
 
     }
 
     public void meetSafeHouse(){
         //안식처를 만났을 때 휴식을 하는 메소드
+    	int num = 0;
     	System.out.println(player.name + "이 휴식처에 도착했다.");
+    	System.out.println();
+    	while(!(num == 2)) {
+    		System.out.println("안식처에서 할 일을 선택하십시오.");
+        	System.out.println("1. 휴식을 취한다(20초)");
+        	System.out.println("2. 이동한다 ");
+        	num = sc.nextInt();
+        	
+        	if(num == 1) {
+        		System.out.println("20초간 휴식을 취합니다.");
+        		try{
+        			Thread.sleep(20000);
+        		} catch(InterruptedException e) {
+        			e.printStackTrace();
+        		}
+        		
+        		System.out.println("HP가 20만큼 회복되었습니다.");
+        		player.HP += 20;
+        		System.out.println("현재" + player.name + "의" + "HP:" + player.getHP());
+        	}
+
+        	if(num == 2) {
+        		System.out.println(player.name + "이/가 휴식을 끝내고 이동을 시작합니다.");        		
+        	}
+    	}
+    	//루프를 빠져나오면 다시 move메소드를 실행하도록 함
+    	System.out.println("이동하고 싶은 방향과 길이를 입력하십시오.");
+    	String way = sc.next();
+    	move(way);
     }
 
     public void meetStore(){
         //상점을 만났을 때 구매하는 메소드
     	System.out.println(player.name + "이 상점에 도착했다.");
+    	System.out.println();
+    	System.out.println("1. 체력포션(50)");
+    	System.out.println("2. 공격력 강화");
+    	System.out.println("3. 방어력 강화");
+    	System.out.println("4. 쉴드 강화");
+    	System.out.println("5. 나가기");
+    	System.out.println("하고 싶은 일을 선택하십시오. ");
+    	System.out.println("선택 :");
+    	int num = sc.nextInt();
+    	
+    	//일단 숫자는 그냥 넣어둠 후에 수정
+    	while(num != 5) {
+    		
+    	}
+    	switch(num) {
+    		case 1:    			
+    			if(player.HP < player.maxHP - 50) {
+    				System.out.println("체력포션을 구매해 체력을 50만큼 회복합니다.");
+        			player.HP += 50;
+        			System.out.println("현재 체력은 " + player.HP + " 입니다.");
+
+    			} else {
+    				System.out.println("체력을 " + (player.maxHP - player.HP) + "만큼 회복합니다.");
+    				player.HP = player.maxHP;
+    				System.out.println("현재 체력은 " + player.HP + " 입니다.");
+    			}
+    			break;
+    			
+    		case 2:
+    			System.out.println(player.name + "의 공격력을 강화합니다.");    		
+    			player.ATK += 2;
+    			break;
+    			
+    		case 3:
+    			System.out.println(player.name + "의 방어력을 강화합니다.");
+    			player.DEF += 2;
+    			break;
+    			
+    		case 4:
+    			if(player.shield < player.maxShield) {
+    				System.out.println(player.name + "의 쉴드를 강화합니다.");
+        			player.shield += 1;        			
+    			} else {
+    				System.out.println("더이상 쉴드를 업그레이드 할 수 없습니다.");
+    			}
+    			break;
+    			
+    		case 5:
+    			System.out.println("상점을 나갑니다.");
+    			break;
+    	}
+    	
+    			
     }
     
     public void meetRandom(){
