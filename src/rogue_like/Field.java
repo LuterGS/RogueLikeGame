@@ -7,14 +7,14 @@ public class Field {
 	Random rand = new Random();
 	Scanner sc = new Scanner(System.in);
     private Map map;// 
-    private Player player = null;// 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점, 8:시작, 9:끝
+    private Player player;// 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점, 8:시작, 9:끝
 
     public Field(Map map, Player player){
         //맵에 대한 입력이 들어오면 맵을 만듬.
         this.map = map;
-        assignMonster();
-        assignSafeHouse();
-        assignStore();
+        assignField(map.monsterNum, Numbers.Monster);
+        assignField(map.safehouseNum, Numbers.SafeHouse);
+        assignField(map.storeNum, Numbers.Store);
         //추가적으로 여기서 맵 세팅이 끝나야만 함.
         //(여기서 assignXXX 이 일어나야 함)
 
@@ -29,109 +29,47 @@ public class Field {
     	//첫글자와 두번째글자를 읽어서 글자인식
     	char way = inputString.charAt(0);
     	int len = Character.getNumericValue(inputString.charAt(1));
+    	int[] player_loc;
     	
     	//문자 인식후 플레이어 위치 변경
-    	
-    	switch(way) {
-    		case '상':
-    			map.map_y -= len;
-    			break;
-    		case '하':
-    			map.map_y += len;
-    			break;
-    		case '좌':
-    			map.map_x -= len;
-    			break;
-    		case '우':
-    			map.map_x += len;
-    			break;    		
-    	}
+		//Edited by 이관석, 2020.09.20 17:02
+		//-> switch문으로 플레이어 위치조정하는부분 변경 (간단히 플레이어의 정보값만 바꾸도록 함)
+		//-> 여기에 벽에 부딪혔을 때, 이벤트에 조우했을 때에 대한 예외처리가 이루어져야 함
+		
+		//1. 입력받은 값이 갈 수 있는지 조회
+		
+		//2. 갈 수 있으면, 그대로 이동
+		//   갈 수 없으면, 특정 이벤트의 위치까지 이동하도록 len을 재조정
+		//   이후 왜 갈 수 없는지 출력 후
+		
+		//3. player.move를 실행하면 됨
     	player.move(Character.toString(way), len);
+    	player_loc = player.getLocation();
     	
-    	// 숫자 인식후 메소드 호출
-		/*
-		 * if(map.map[map.map_x][map.map_y] == 0) {
-		 * 
-		 * } // 길
-		 * 
-		 * if(map.map[map.map_x][map.map_y] == 1) {
-		 * 
-		 * } //벽
-		 */
-    	if(map.map[map.map_x][map.map_y] == 2) {
-    		meetSafeHouse();
-    	}
-    	//휴식처
-    	
-    	if(map.map[map.map_x][map.map_y] == 3) {
-    		meetMonster();
-    	}
-    	//몬스터
-    	
-    	if(map.map[map.map_x][map.map_y] == 4) {
-    		meetStore();
-    	}   	
-    	//상점
-    	
-		/*
-		 * if(map.map[map.map_x][map.map_y] == 8) {
-		 * 
-		 * } //시작
-		 */    	
-    	if(map.map[map.map_x][map.map_y] == 3) {
-    		
-    	}
-    	//끝
-
+    	//4. 만약 갈 수 없는 이유가 이벤트를 만나서라면 그 이벤트를 여기서 실행
+		if(map.map[player_loc[0]][player_loc[1]] == Numbers.SafeHouse){
+			meetSafeHouse();
+		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Monster){
+			meetMonster();
+		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Store){
+			meetStore();
+		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.EndPoint){
+			finalBoss();
+		}
     }
-    // 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점,  8:시작, 9:끝
-    private void assignMonster(){
-        //몬스터를 맵에 배치하는 메소드
-    	// 길중에 랜덤으로 찾아서 몬스터를 배치 나중에 수에 상수 넣는거 가능
-    	int monsterNum = rand.nextInt(5);
-    	for(int i = 0; i < monsterNum;) {
+
+    // 기존에 주석으로 정의했던 부분을 Numbers 클래스에 상수로 선언
+	// 기존에 나누어져있던 3개의 메소드를 하나로 합침
+    private void assignField(int targetNum, int target){
+    	for(int i = 0; i < targetNum;) {			//이관석 -> 아주아주 좋은 반복문이라 생각합니다!
     		int randNum1 = rand.nextInt(map.map.length);
     		int randNum2 = rand.nextInt(map.map[0].length);
     		if(map.map[randNum1][randNum2] == 0) {
-    			map.map[randNum1][randNum2] = 2;
+    			map.map[randNum1][randNum2] = target;
     			++i;
-    		} else {
-    			continue;
     		}
-    	}    	
-    }
-
-    private void assignSafeHouse(){
-        //휴식처를 맵에 배치하는 메소드
-    	// 길중에 랜덤으로 찾아서 휴식처 배치
-    	int monsterNum = rand.nextInt(3);
-    	for(int i = 0; i < monsterNum;) {
-    		int randNum1 = rand.nextInt(map.map.length);
-    		int randNum2 = rand.nextInt(map.map[0].length);
-    		if(map.map[randNum1][randNum2] == 0) {
-    			map.map[randNum1][randNum2] = 3;
-    			++i;
-    		} else {
-    			continue;
-    		}
-    	} 
-    }
-
-    private void assignStore(){
-        //상점을 맵에 배치하는 메소드
-    	// 길중에 랜덤으로 찾아서 상점 배치
-    	int monsterNum = rand.nextInt(3);
-    	for(int i = 0; i < monsterNum;) {
-    		int randNum1 = rand.nextInt(map.map.length);
-    		int randNum2 = rand.nextInt(map.map[0].length);
-    		if(map.map[randNum1][randNum2] == 0) {
-    			map.map[randNum1][randNum2] = 4;
-    			++i;
-    		} else {
-    			continue;
-    		}
-    	} 
-    }
+    	}
+	}
 
     public void showField(){
         //필드의 정보를 보여주는 메소드
@@ -147,15 +85,41 @@ public class Field {
 
     public void meetMonster(){
         //몬스터를 만났을 때 전투를 하는 메소드
-    	
-    	//몬스터 객체 새로 생성함
-    	Monster monster = new Monster(player);
-    	System.out.println(player.name + "이/가 " + monster.name + "을 만났다!");
-    	while(!(player.HP == 0 || monster.HP == 0)) {
-        	player.attack(player);//Life에 일단은 player를 넣었음
-        	monster.attack(monster);
-    	}
 
+    	Monster[] monster;
+    	int monsterNum, monstersHP = 0;
+
+    	//몬스터 객체 새로 생성함
+		//두 객체 이상의 몬스터가 나올수도 있기 때문에, 그 부분을 구현함
+		double ratio = Math.random();
+		if(ratio < 0.7) monsterNum = 1;
+		else if(ratio < 0.9) monsterNum = 2;
+		else monsterNum = 3;
+
+		//몬스터를 생성함과 동시에 동시 출력
+		monster = new Monster[monsterNum];
+		System.out.printf("%s 이/가 ", player.getName());
+		for(int i = 0; i < monsterNum; i++){
+			monster[i] = new Monster(player);
+			System.out.printf("%s	", monster[i].getName());
+		}
+		System.out.print("를 만났다!\n");
+
+		//게임 전투문
+		while(true){
+			//플레이어가 공격할 몬스터와, 이용할 스킬을 선택하는 부분 (구현해야함)
+			//Checker 등등을 이용해 수준높게 구현해야할 필요성이 있음
+			//다른 메소드들을 만들어 불러오는것도 방법
+
+			if(player.getHP() <= 0.0){
+				//게임 오버
+				break;
+			}
+
+			if(/*몬스터들의 모든 HP가 0일 때*/monster[0].getHP() <= 0.0){
+				break;
+			}
+		}
     }
 
     public void meetSafeHouse(){
@@ -178,7 +142,9 @@ public class Field {
         		}
         		
         		System.out.println("HP가 20만큼 회복되었습니다.");
-        		player.HP += 20;
+        		// player.HP += 20;  -> Player의 정보를 직접적으로 수정하는 코드는 지양해야 함.
+				// getter, setter를 생성해서 수정하도록 변경함.
+				player.heal(20.0);
         		System.out.println("현재" + player.name + "의" + "HP:" + player.getHP());
         	}
 
