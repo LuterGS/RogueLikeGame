@@ -1,13 +1,13 @@
 package rogue_like;
 
 public class Game {
-	private MapHandler handler;
 
     private Map[] maps;
     private Player player;
     private Field field;
 
     public Game(){
+
         // 게임 인트로 메뉴
         gameIntro();
         System.out.println("Game start!");
@@ -36,12 +36,8 @@ public class Game {
     }
 
     private Map chooseMap(){
-    	//map과 maphandler를 구분함에 따라 구문을 살짝 변경했습니다.
-    	
-        //maps = Map.loadMaps(); //기존 구문
-    	handler = new MapHandler(); //호출과 동시에 맵 로드
-    	this.maps = handler.getMaps();
-    	
+
+        maps = Map.loadMaps();
         for(int i = 0; i < maps.length; i++){
             if(!maps[i].isValid){
                 System.out.println(maps[i].mapName + " 은 열 수 없습니다 (잘못된 형식의 맵입니다)");
