@@ -1,9 +1,11 @@
 package rogue_like;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Field {
+	Checker checker = new Checker();
 	Random rand = new Random();
 	Scanner sc = new Scanner(System.in);
     private Map map;// 
@@ -36,6 +38,29 @@ public class Field {
 		//-> switch문으로 플레이어 위치조정하는부분 변경 (간단히 플레이어의 정보값만 바꾸도록 함)
 		//-> 여기에 벽에 부딪혔을 때, 이벤트에 조우했을 때에 대한 예외처리가 이루어져야 함
 		
+    	// 필드의 상황을 알기위해서 플레이어의 위치를 temp를 만들어서 임시로 받아서 map의 값과 비교하여 이벤트 확인 
+    	int[] playerTemp_loc = player.getLocation();
+	    	for(int i = 0 ; i < len; i++) {
+	    		switch (way) {
+	            case '상':
+	            	playerTemp_loc[0] += len;
+	                break;
+	            case '하':
+	            	playerTemp_loc[0] -= len;
+	                break;
+	            case '좌':
+	            	playerTemp_loc[1] -= len;
+	                break;
+	            case '우':
+	            	playerTemp_loc[1] += len;
+	    		}
+	    		// 플레이어가 이벤트를 만나면 for문을 빠져나온후 아래 메소드 실행
+	    		if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] != 0) {
+	    			meetRandom(playerTemp_loc, len, i);//맵에 길이 무엇이 있는지 확인하고 출력해주는 메소드
+	    			break;
+	    		}	    		
+	        }	    		    	
+    	
 		//1. 입력받은 값이 갈 수 있는지 조회
 		
 		//2. 갈 수 있으면, 그대로 이동
@@ -110,13 +135,38 @@ public class Field {
 			//플레이어가 공격할 몬스터와, 이용할 스킬을 선택하는 부분 (구현해야함)
 			//Checker 등등을 이용해 수준높게 구현해야할 필요성이 있음
 			//다른 메소드들을 만들어 불러오는것도 방법
-
+			
+			int attackMonster = 0;// 몇번째 몬스터를 공격할지 선택변수
+			
+			liveMonster(monster);//살아있는 몬스터의 번호와 이름 출력
+			System.out.println("몇번째 몬스터를 공격할지 선택하십시오.");
+			try {
+				attackMonster = sc.nextInt();
+				//몬스터를 선택했을때 죽었는지 확인하는 메소드
+				checkAliveMonster(monster, attackMonster);
+				
+				player.attack(monster, attackMonster);
+			} catch (InputMismatchException e) {
+				attackMonster = 0;
+				String printInfo = "숫자로 " + monster.length +  "이하로 입력해주세요.\n"; 
+				attackMonster = checker.getInt(1, monster.length, printInfo);
+				checkAliveMonster(monster, attackMonster);
+				
+				player.attack(monster, attackMonster);
+				//System.out.printf("숫자로 %d 이하로 입력해주세요.\n", monster.length);
+				//attackMonster = sc.nextInt();
+			} 			
+			monstersAttack(monster, player);//살아있는 몬스터가 순서대로 공격을 함
+			
+							
 			if(player.getHP() <= 0.0){
 				//게임 오버
+				System.out.printf("플레이어 %d가 사망했습니다.\n", player.name);
 				break;
 			}
 
-			if(/*몬스터들의 모든 HP가 0일 때*/monster[0].getHP() <= 0.0){
+			if(/*몬스터들의 모든 HP가 0일 때*/aliveMonsters(monster) <= 0.0){
+				System.out.printf("플레이어 %d가 모든 몬스터를 처리했습니다.\n", player.name);
 				break;
 			}
 		}
@@ -216,9 +266,66 @@ public class Field {
     			
     }
     
-    public void meetRandom(){
-        //랜덤한 장소를 만났을 때 행동하는 메소드
+    public void meetRandom(int[] playerTemp_loc, int len, int i){
+        //랜덤한 장소를 만났을 때 상황을 출력하는 메소드, 이동거리값도 재조정
+    	
+    	if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.Wall){
+    		System.out.println("벽에 막혀 더이상 이동할 수 없습니다.");
+    		len = i;
+   		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.Monster){
+   			System.out.println("몬스터를 만나 이동할 수 없습니다.");
+   			len = i;
+   		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.SafeHouse){
+   			System.out.println("휴식처를 발견했다! ");
+   			len = i;
+		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.Store){
+			System.out.println("상점을  발견했다! ");
+			len = i;
+    	}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.EndPoint){
+   			System.out.println("엔드 포인트에 도착했습니다. 축하합니다!");
+    	}
     }
+    
+    public void liveMonster(Monster[] monsters) {
+    	for(int i =0 ; i < monsters.length; i++) {
+    		if(monsters[i].getHP() > 0) {
+    			System.out.printf("%d번 %s 몬스터가 있습니다.\n", i, monsters[i].getName());
+    		}
+    	}
+    }
+    //몬스터가 살아있는 것이 있으면 1 없으면 0을 리턴
+    public int aliveMonsters(Monster[] monsters) {
+    	int aliveMonsters = 0;
+    	for(int i = 0; i < monsters.length; i++) {
+    		if(monsters[i].getHP() <= 0 ) {
+    			aliveMonsters += 1;
+    		}
+    	}
+    	if(aliveMonsters == 0) {
+    		return 0;
+    	} else {
+    		return 1;
+    	}
+    }
+    // 여러 몬스터가 공격을 할 때 살아있는 몬스터만 공격을 하도록 구현
+    public void monstersAttack(Monster[] monsters, Player player) {
+    	System.out.println("현재 존재하는 몬스터");
+    	for(int i = 0; i <monsters.length ;i++) {
+    		if(monsters[i].getHP() > 0) {
+    			monsters[i].attack(player);
+    		}
+    	}
+    }
+    // 선택한 몬스터가 살아있는지 확인
+    public void checkAliveMonster(Monster[] monster,int attackMonster) {
+    	while(monster[attackMonster].getHP() <= 0){
+			String info = "몬스터번호를" + monster.length + "이하 중 하나를 입력하세요.";
+			System.out.println("현재 선택한 몬스터는 처리되었습니다.");
+			System.out.println("다른 몬스터를 선택하여주세요.");
+			attackMonster = checker.getInt(1, monster.length, info);
+			
+		}
+	}
     
     public void finalBoss(){
         //출구에 도착했을 때 마지막 보스 만남

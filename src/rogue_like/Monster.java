@@ -26,6 +26,12 @@ public class Monster extends Life{
         damage -= DEF;
         double beforeAttacked = this.HP;
         this.HP -= damage;
+        // edited by 원재, 전투 로직 짤때 필요할거 같아서 추가했슴다.
+        if(this.HP <= 0) {
+        	System.out.println(this.name + "이가 공격을 받고 처리되었다!" );
+        	return 0;
+        }
+        
         System.out.println(this.name + " 이/가 공격받음! 체력이 " + Double.toString(beforeAttacked) + "에서 " + Double.toString(this.HP) + "로 감소");
 
         return 0;
