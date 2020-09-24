@@ -6,6 +6,8 @@ public class Map {
 
     //맵에 관련된 로직을 처리하는 클래스. 맵 렌더링 후 전체값을 게임에 전달하는 부분 위주
     int [][] map;
+    //Edited by 이관석, 2020.09.20 17:00
+    //-> 플레이어 위치를 나타내는 map_x, map_y를 Player 클래스 내에 넣음
     int monsterNum;
     int safehouseNum;
     int storeNum;
