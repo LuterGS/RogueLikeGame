@@ -24,63 +24,158 @@ public class Field {
 
     }
 
+  //Edited by 김우열, 2020.09.25 04:00
     public void move(String inputString){
-        //필드에서 움직이는 메소드.
-        //여기서 meetXXX이 일어나야 함.
+    	//문자열 확인
+    	//move_arr : {direction, length} if error : null
+    	String[] move_arr = Checker.moveCheck(inputString);
+    	String dir = null;
+    	int len = 0;
     	
-    	//첫글자와 두번째글자를 읽어서 글자인식
-    	char way = inputString.charAt(0);
-    	int len = Character.getNumericValue(inputString.charAt(1));
+    	if (move_arr == null) {
+    		//입력 오류 일때
+    		System.out.println("입력이 올바르지 않습니다.");
+    		return;
+    	}
+    	else {
+    		dir = move_arr[0];
+    		len = Integer.parseInt(move_arr[1]);
+    	}
     	int[] player_loc;
-    	
-    	//문자 인식후 플레이어 위치 변경
-		//Edited by 이관석, 2020.09.20 17:02
-		//-> switch문으로 플레이어 위치조정하는부분 변경 (간단히 플레이어의 정보값만 바꾸도록 함)
-		//-> 여기에 벽에 부딪혔을 때, 이벤트에 조우했을 때에 대한 예외처리가 이루어져야 함
 		
     	// 필드의 상황을 알기위해서 플레이어의 위치를 temp를 만들어서 임시로 받아서 map의 값과 비교하여 이벤트 확인 
-    	int[] playerTemp_loc = player.getLocation();
-	    	for(int i = 0 ; i < len; i++) {
-	    		switch (way) {
-	            case '상':
-	            	playerTemp_loc[0] += len;
-	                break;
-	            case '하':
-	            	playerTemp_loc[0] -= len;
-	                break;
-	            case '좌':
-	            	playerTemp_loc[1] -= len;
-	                break;
-	            case '우':
-	            	playerTemp_loc[1] += len;
-	    		}
-	    		// 플레이어가 이벤트를 만나면 for문을 빠져나온후 아래 메소드 실행
-	    		if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] != 0) {
-	    			meetRandom(playerTemp_loc, len, i);//맵에 길이 무엇이 있는지 확인하고 출력해주는 메소드
-	    			break;
-	    		}	    		
-	        }	    		    	
     	
-		//1. 입력받은 값이 갈 수 있는지 조회
-		
-		//2. 갈 수 있으면, 그대로 이동
-		//   갈 수 없으면, 특정 이벤트의 위치까지 이동하도록 len을 재조정
-		//   이후 왜 갈 수 없는지 출력 후
-		
-		//3. player.move를 실행하면 됨
-    	player.move(Character.toString(way), len);
+    	//깊은 복사 !!!!!!!!!!!!!!!
+    	int[] playerTemp_loc = new int[2];
+    	for (int i=0; i<player.getLocation().length; i++) {
+    		playerTemp_loc[i] = player.getLocation()[i];
+    	}
+    	
+    	//시뮬레이션으로 한 칸씩 이동하면 최대 이동 가능 거리 확인 (단, 벽을 만나거나 endpoint인 경우 문구 출력)
+    	for (int i=0; i< len; i++) {
+    		switch (dir) {
+    		case Numbers.UP:
+            	playerTemp_loc[0] -= 1;
+                break;
+            case Numbers.DOWN:
+            	playerTemp_loc[0] += 1;
+                break;
+            case Numbers.LEFT:
+            	playerTemp_loc[1] -= 1;
+                break;
+            case Numbers.RIGHT:
+            	playerTemp_loc[1] += 1;
+            	break;
+    		}
+    		
+    		int temp = -1; //임시 초기값 -1
+    		
+    		//맵을 벗어나는지 확인 for bound exception for map
+    		try {
+    			temp = map.map[playerTemp_loc[0]][playerTemp_loc[1]];
+    		} catch (Exception e) {
+    			System.out.println("맵을 벗어났음");  //for test
+    			len = i;
+    			break;
+    		}
+    		
+    		// 플레이어가 가려는 곳이 평범한 길일 경우 계속 전진
+    		if (temp == Numbers.PATH || temp == Numbers.START) {
+    			continue;
+    		}
+    		// 플레이어가 가려는 곳이 벽이어서 못가는 경우
+    		else if (temp == Numbers.Wall ) {
+    			len = i;
+    			System.out.println("벽에 막혀 더이상 이동할 수 없습니다.");
+    			break;
+    		}
+    		else if (temp == Numbers.MONSTER) {
+    			len = i;
+    			System.out.println("몬스터를 만나 더 이상 이동할 수 없습니다.");
+    			break;
+    		}
+    		//플레이어가 그 외 이벤트를 만났을 경우 해당 위치까지 이동 가능하고 더 이상은 못가게
+    		else {
+    			len = i+1;
+    			break;
+    		}
+    	}
+    	
+    	//플레이어 실제 이동
+    	player.move(dir, len);
     	player_loc = player.getLocation();
     	
-    	//4. 만약 갈 수 없는 이유가 이벤트를 만나서라면 그 이벤트를 여기서 실행
-		if(map.map[player_loc[0]][player_loc[1]] == Numbers.SafeHouse){
+    	//이벤트 발생했을 경우 실행
+    	if(map.map[player_loc[0]][player_loc[1]] == Numbers.SafeHouse){
+    		System.out.println("휴식처를 발견했다! ");
 			meetSafeHouse();
 		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Monster){
+			System.out.println("몬스터와 조우했습니다.");
 			meetMonster();
 		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Store){
+			System.out.println("상점을  발견했다! ");
 			meetStore();
 		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.EndPoint){
+			System.out.println("엔드 포인트에 도착했습니다. 축하합니다!");
 			finalBoss();
 		}
+    	
+//    	//필드에서 움직이는 메소드.
+//        //여기서 meetXXX이 일어나야 함.
+//    	
+//    	//첫글자와 두번째글자를 읽어서 글자인식
+//    	char way = inputString.charAt(0);
+//    	int len = Character.getNumericValue(inputString.charAt(1));
+//    	int[] player_loc;
+//    	
+//    	//문자 인식후 플레이어 위치 변경
+//		//Edited by 이관석, 2020.09.20 17:02
+//		//-> switch문으로 플레이어 위치조정하는부분 변경 (간단히 플레이어의 정보값만 바꾸도록 함)
+//		//-> 여기에 벽에 부딪혔을 때, 이벤트에 조우했을 때에 대한 예외처리가 이루어져야 함
+//		
+//    	// 필드의 상황을 알기위해서 플레이어의 위치를 temp를 만들어서 임시로 받아서 map의 값과 비교하여 이벤트 확인 
+//    	int[] playerTemp_loc = player.getLocation();
+//	    	for(int i = 0 ; i < len; i++) {
+//	    		switch (way) {
+//	            case '상':
+//	            	playerTemp_loc[0] += len;
+//	                break;
+//	            case '하':
+//	            	playerTemp_loc[0] -= len;
+//	                break;
+//	            case '좌':
+//	            	playerTemp_loc[1] -= len;
+//	                break;
+//	            case '우':
+//	            	playerTemp_loc[1] += len;
+//	    		}
+//	    		// 플레이어가 이벤트를 만나면 for문을 빠져나온후 아래 메소드 실행
+//	    		if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] != 0) {
+//	    			meetRandom(playerTemp_loc, len, i);//맵에 길이 무엇이 있는지 확인하고 출력해주는 메소드
+//	    			break;
+//	    		}	    		
+//	        }	    		    	
+//    	
+//		//1. 입력받은 값이 갈 수 있는지 조회
+//		
+//		//2. 갈 수 있으면, 그대로 이동
+//		//   갈 수 없으면, 특정 이벤트의 위치까지 이동하도록 len을 재조정
+//		//   이후 왜 갈 수 없는지 출력 후
+//		
+//		//3. player.move를 실행하면 됨
+//    	player.move(Character.toString(way), len);
+//    	player_loc = player.getLocation();
+//    	
+//    	//4. 만약 갈 수 없는 이유가 이벤트를 만나서라면 그 이벤트를 여기서 실행
+//		if(map.map[player_loc[0]][player_loc[1]] == Numbers.SafeHouse){
+//			meetSafeHouse();
+//		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Monster){
+//			meetMonster();
+//		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Store){
+//			meetStore();
+//		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.EndPoint){
+//			finalBoss();
+//		}
     }
  
 

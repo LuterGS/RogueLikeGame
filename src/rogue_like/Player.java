@@ -7,7 +7,14 @@ public class Player extends Life {
     private static Player player = null;
     private Scanner scan = new Scanner(System.in);
     private Skill skill = null;
-    private int[] location = new int[2];
+    /*
+     * 현재 location에 할당되는 값이 없습니다. 
+     * location 할당 함수를 만들어서 field가 생성될 때 호출을 하던가
+     * (플레이어 위치도 결국은 Field에만 가지고 있는 값이니까 )
+     * Player 위치 자체를 Field의 멤버함수로 바꿔서 플레이어의 위치를 Field에서 관리하는 방법도
+     * 괜찮을거 같습니다.
+     */
+    private int[] location = new int[2]; 
 
     private Player(){
 
@@ -46,20 +53,20 @@ public class Player extends Life {
         return player;
     }
 
-
+    //상 과 하가 반대로 되있어서 수정했습니다. - 김우열
     public void move(String moveDirection, int moveRange){
         //매개변수는 나중에 수정 가능
         switch (moveDirection) {
-            case "상":
-                player.location[0] += moveRange;
-                break;
-            case "하":
+            case Numbers.UP:
                 player.location[0] -= moveRange;
                 break;
-            case "좌":
+            case Numbers.DOWN:
+                player.location[0] += moveRange;
+                break;
+            case Numbers.LEFT:
                 player.location[1] -= moveRange;
                 break;
-            case "우":
+            case Numbers.RIGHT:
                 player.location[1] += moveRange;
         }
 
