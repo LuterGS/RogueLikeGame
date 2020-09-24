@@ -82,6 +82,7 @@ public class Field {
 			finalBoss();
 		}
     }
+ 
 
     // 기존에 주석으로 정의했던 부분을 Numbers 클래스에 상수로 선언
 	// 기존에 나누어져있던 3개의 메소드를 하나로 합침
