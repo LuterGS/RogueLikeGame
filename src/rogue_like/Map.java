@@ -1,4 +1,5 @@
 package rogue_like;
+import java.util.concurrent.TimeUnit;;
 
 public class Map {
 
@@ -25,6 +26,42 @@ public class Map {
         mapName = fileName.split(Numbers.DOT_TXT)[0];// 임시로 이렇게 설정해뒀지만, 여기서 mapName은 텍스트 파일의 이름을 가지도록 설정해야 함
         randomNum = -1;              // 랜덤한 이벤트가 일어날 장소의 개수
         errorMessage = "";          // 만약 맵 체크 시 오류가 발생하면 여기에 어떤 오류가 발생했는지 넣어줌 (이건 막 생각한거긴 함)
+    }
+    
+    public void printMap() {
+    	System.out.print("Map: ");
+    	System.out.println(mapName);
+    	System.out.println();
+    	for(int i = 0; i < map.length; i++) {
+    		for(int j = 0; j < map[i].length; j++) {
+    			System.out.print(getIcon(map[i][j]));
+    		}
+    		System.out.println();
+    	}
+    	System.out.println();
+    }
+    
+    private String getIcon(int num) {
+    	switch(num) {
+    	case Numbers.PATH:
+    		return "  ";
+    	case Numbers.WALL:
+    		return "■";
+    	case Numbers.MONSTER:
+    		return "◈";
+    	case Numbers.STORE:
+    		return "♥";
+    	case Numbers.SAFEHOUSE:
+    		return "♨";
+    	case Numbers.PLAYER:
+    		return "◇";
+    	case Numbers.START:
+    		return "□";
+    	case Numbers.END:
+    		return "☆";
+    	default:
+    		return "Something Wrong";
+    	}
     }
     
     /*

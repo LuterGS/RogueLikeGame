@@ -14,6 +14,8 @@ public class Game {
 
         // 맵 선택
         Map gameMap = chooseMap();
+        Help.mapIcons();
+        gameMap.printMap();
 
         // 플레이어 생성
         this.player = Player.makeOne();
