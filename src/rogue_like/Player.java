@@ -107,6 +107,11 @@ public class Player extends Life {
         }
     }
 
+    public Skill getSkill() {
+    	return this.skill;
+    }
+    //skillChecker에서 skill받아오는게 필요해서 만들었습니다.
+    
     public int[] getLocation() {
         return location;
     }
