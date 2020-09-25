@@ -14,9 +14,9 @@ public class Field {
     public Field(Map map, Player player){
         //맵에 대한 입력이 들어오면 맵을 만듬.
         this.map = map;
-        assignField(map.monsterNum, Numbers.Monster);
-        assignField(map.safehouseNum, Numbers.SafeHouse);
-        assignField(map.storeNum, Numbers.Store);
+        assignField(map.monsterNum, Numbers.MONSTER);
+        assignField(map.safehouseNum, Numbers.SAFEHOUSE);
+        assignField(map.storeNum, Numbers.STORE);
         //추가적으로 여기서 맵 세팅이 끝나야만 함.
         //(여기서 assignXXX 이 일어나야 함)
 
@@ -72,13 +72,13 @@ public class Field {
     	player_loc = player.getLocation();
     	
     	//4. 만약 갈 수 없는 이유가 이벤트를 만나서라면 그 이벤트를 여기서 실행
-		if(map.map[player_loc[0]][player_loc[1]] == Numbers.SafeHouse){
+		if(map.map[player_loc[0]][player_loc[1]] == Numbers.SAFEHOUSE){
 			meetSafeHouse();
-		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Monster){
+		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.MONSTER){
 			meetMonster();
-		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.Store){
+		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.STORE){
 			meetStore();
-		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.EndPoint){
+		}else if(map.map[player_loc[0]][player_loc[1]] == Numbers.END){
 			finalBoss();
 		}
     }
@@ -270,19 +270,19 @@ public class Field {
     public void meetRandom(int[] playerTemp_loc, int len, int i){
         //랜덤한 장소를 만났을 때 상황을 출력하는 메소드, 이동거리값도 재조정
     	
-    	if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.Wall){
+    	if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.WALL){
     		System.out.println("벽에 막혀 더이상 이동할 수 없습니다.");
     		len = i;
-   		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.Monster){
+   		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.MONSTER){
    			System.out.println("몬스터를 만나 이동할 수 없습니다.");
    			len = i;
-   		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.SafeHouse){
+   		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.SAFEHOUSE){
    			System.out.println("휴식처를 발견했다! ");
    			len = i;
-		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.Store){
+		}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.STORE){
 			System.out.println("상점을  발견했다! ");
 			len = i;
-    	}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.EndPoint){
+    	}else if(map.map[playerTemp_loc[0]][playerTemp_loc[1]] == Numbers.END){
    			System.out.println("엔드 포인트에 도착했습니다. 축하합니다!");
     	}
     }
