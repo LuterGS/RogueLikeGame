@@ -106,4 +106,18 @@ public class Checker {
     	
 		return arr;
     }
+	
+    public int skillChecker(String input, Player player) {
+    	String tempInput = input;
+    	Skill tempSkill = player.getSkill();//getSkill 메소드를 만들어서 tempSkill에 player에 스킬을 넣음
+    	//for문을 통해 받은 문장에서 skill이 있는지 확인
+    	for(int i = 0; i < tempSkill.skillName.length; i++) {
+    		if(tempInput.indexOf(tempSkill.skillName[i]) >= 0) {
+    			return i;// 여기서 문장에 스킬이 포함되어 있으면 인터페이스를 상속받는 직업의 skillName의 index번호를 return
+    		}
+    	}   	
+    	System.out.println("스킬이 제대로 입력되지 않았습니다!");
+    	return -1;//제대로 스킬이 입력되지 않았을때는 -1출력하게 했습니다.
+
+    }
 }
