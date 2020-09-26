@@ -45,12 +45,12 @@ public class Numbers {
 	public static final double MIN_SAFEHOUSE_TO_PATH = 0.1;
 	public static final double MIN_STORE_TO_PATH = 0.05;
 
-    public static final int Way = 0;
-    public static final int Wall = 1;
-    public static final int Monster = 2;
-    public static final int SafeHouse = 3;
-    public static final int Store = 4;
-    public static final int StartPoint = 8;
-    public static final int EndPoint = 9;
+    //public static final int Way = 0;
+    //public static final int Wall = 1;
+    //public static final int Monster = 2;
+    //public static final int SafeHouse = 3;
+    //public static final int Store = 4;
+    //public static final int StartPoint = 8;
+    //public static final int EndPoint = 9;
 
 }

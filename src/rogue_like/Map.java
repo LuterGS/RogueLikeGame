@@ -1,4 +1,5 @@
 package rogue_like;
+import java.util.concurrent.TimeUnit;
 
 public class Map {
 
@@ -32,16 +33,13 @@ public class Map {
     	for (int i=0; i<map.length; i++) {
     		for (int j=0; j<map[i].length; j++) {
     			if (map[i][j] == Numbers.START) {
-    				int[] t = new int[2];
-    				t[0] = i;
-    				t[1] = j;
-    				return t;
+    				return new int[]{i, j};
     			}
     		}
     	}
     	return null;
     }
-    
+   
     /*
     public static void main(String[] args) {
     	String[][] dummy_input = {{"1", "9", "1", "1", "1"}, // 0:길, 1:벽, 8:시작, 9:끝
