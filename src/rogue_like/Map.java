@@ -1,5 +1,5 @@
 package rogue_like;
-import java.util.concurrent.TimeUnit;;
+import java.util.concurrent.TimeUnit;
 
 public class Map {
 
@@ -28,42 +28,18 @@ public class Map {
         errorMessage = "";          // 만약 맵 체크 시 오류가 발생하면 여기에 어떤 오류가 발생했는지 넣어줌 (이건 막 생각한거긴 함)
     }
     
-    public void printMap() {
-    	System.out.print("Map: ");
-    	System.out.println(mapName);
-    	System.out.println();
-    	for(int i = 0; i < map.length; i++) {
-    		for(int j = 0; j < map[i].length; j++) {
-    			System.out.print(getIcon(map[i][j]));
+    //플레이어 초기 위치가 필요해서 넣었습니다.
+    public int[] getStartPoint() {
+    	for (int i=0; i<map.length; i++) {
+    		for (int j=0; j<map[i].length; j++) {
+    			if (map[i][j] == Numbers.START) {
+    				return new int[]{i, j};
+    			}
     		}
-    		System.out.println();
     	}
-    	System.out.println();
+    	return null;
     }
-    
-    private String getIcon(int num) {
-    	switch(num) {
-    	case Numbers.PATH:
-    		return "  ";
-    	case Numbers.WALL:
-    		return "■";
-    	case Numbers.MONSTER:
-    		return "◈";
-    	case Numbers.STORE:
-    		return "♥";
-    	case Numbers.SAFEHOUSE:
-    		return "♨";
-    	case Numbers.PLAYER:
-    		return "◇";
-    	case Numbers.START:
-    		return "□";
-    	case Numbers.END:
-    		return "☆";
-    	default:
-    		return "Something Wrong";
-    	}
-    }
-    
+   
     /*
     public static void main(String[] args) {
     	String[][] dummy_input = {{"1", "9", "1", "1", "1"}, // 0:길, 1:벽, 8:시작, 9:끝
