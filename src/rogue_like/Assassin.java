@@ -24,9 +24,9 @@ public class Assassin extends SkillInfo implements Skill{
 
         for(Monster monster: monsters) {
             if (Math.random() < 0.5) {
+                System.out.printf("회피 실패! %.2f 만큼의 데미지를 입습니다.\n", monster.attack());
                 singleAttacked(player, monster, 1);
                 monster.attacked(monster.attack());
-                System.out.println("회피 실패! " + Double.toString(monster.attack()) + "만큼의 데미지를 입었습니다.");
             } else {
                 System.out.println("회피 성공! 데미지를 입지 않습니다.");
             }
@@ -79,6 +79,6 @@ public class Assassin extends SkillInfo implements Skill{
     }
 
     public void singleAttacked(Player player, Monster monster, double ratio){
-        player.setHP(player.getHP() - (monster.attack() * ratio));
+        player.attacked((monster.attack() * ratio));
     }
 }

@@ -37,7 +37,7 @@ public class Wizard extends SkillInfo implements Skill {
 
         if(monsters.get(target).getHP() <= monsters.get(target).getMaxHP() * 0.5){
             if(Math.random() <= 0.5){
-                monsters.get(target).setHP(0.0);
+                monsters.get(target).attacked(monsters.get(target).getMaxHP());
             }else{
                 monsters.get(target).attacked(player.getATK() * 0.7);
             }
@@ -56,12 +56,12 @@ public class Wizard extends SkillInfo implements Skill {
 
         for(int i = 0; i < 5; i++){
             selector = rand.nextInt(monsters.size() + 1);
-            damage = player.getATK() * ((Math.random() * 140) + 30.0);
+            damage = player.getATK() * ((Math.random() * 140) + 30.0) * 0.01;
             if(selector < monsters.size()){
                 monsters.get(selector).attacked(damage);
             }else{
-                System.out.println("플레이어에게 스스로 공격! 데미지를 받았다.");
-                player.setHP(player.getHP() - damage);
+                //System.out.println("플레이어에게 스스로 공격! 데미지를 받았다.");
+                player.attacked(damage);
             }
         }
         return 0;
@@ -76,8 +76,6 @@ public class Wizard extends SkillInfo implements Skill {
     }
 
     public void singleAttacked(Player player, Monster monster, double ratio){
-        if(monster.getHP() > 0.0) {
-            player.setHP(player.getHP() - (monster.attack() * ratio));
-        }
+        player.attacked((monster.attack() * ratio));
     }
 }

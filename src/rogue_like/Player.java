@@ -25,8 +25,8 @@ public class Player extends Life {
         skillSelect = Checker.getInt(1, 3, "플레이어의 직업을 선택해주세요. 1번은 Vanguard, 2번은 Assassin, 3번은 Wizard 입니다 : ");
 
         //플레이어 스탯 조정 부분. 난이도를 추가한다면 여기를 좀 더 디테일하게 다듬어야함
-        this.ATK = 10;
-        this.DEF = 2;
+        this.ATK = 20;
+        this.DEF = 10;
         this.maxHP = 120;// 원래 80이었는데 포션 먹을때  max.hp와 hp가와 상이한 부분이있어 -되는 오류 있어서 120으로 수정합니다. by 원재 
         this.HP = this.maxHP;
 
@@ -56,7 +56,7 @@ public class Player extends Life {
 
         int select = Checker.getInt(1, 4, "사용할 스킬을 골라주세요 : ");
         int target = 0;
-        if(skill.getSkillTargeted(select)) target = (Checker.getInt(1, monsters.size(), "사용할 몬스터를 선택해주세요 : ") - 1);
+        if(skill.getSkillTargeted(select-1) && monsters.size() > 1) target = (Checker.getInt(1, monsters.size(), "사용할 몬스터를 선택해주세요 : ") - 1);
 
         if(select == 1){
             this.skill.Skill1(this, monsters, target);
@@ -91,8 +91,8 @@ public class Player extends Life {
 
     public void printPlayerInfo(){
         System.out.println("플레이어 이름 : " + this.name);
-        System.out.println("체력 : " + this.HP + "/" + this.maxHP);
-        if(this.maxShield == 20) System.out.println("방어막 : " + this.shield + "/" + this.maxShield);
+        System.out.printf("체력 : %.2f / %.2f\n", this.HP, this.maxHP);
+        if(this.maxShield == 20) System.out.printf("방어막 : %.2f / %.2f\n", this.shield, this.maxShield);
         System.out.println("공격력 : " + this.ATK);
         System.out.println("방어력 : " + this.DEF);
     }

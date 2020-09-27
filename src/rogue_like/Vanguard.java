@@ -23,7 +23,7 @@ public class Vanguard extends SkillInfo implements Skill {
 
         monsters.get(target).attacked(player.getATK() * 2);
         player.setShield(player.getMaxShield());
-        System.out.println("방어막 돌격!" + monsters.get(target).getName() + " 에게" + Double.toString(player.getATK() * 2) + "만큼의 데미지를 주었다.");
+        //System.out.println("방어막 돌격!" + monsters.get(target).getName() + " 에게" + Double.toString(player.getATK() * 2) + "만큼의 데미지를 주었다.");
         double random = Math.random();
         if(random <0.2) attacked(player, monsters, 3);
         else attacked(player, monsters, 1);
@@ -36,7 +36,6 @@ public class Vanguard extends SkillInfo implements Skill {
 
         monsters.get(target).attacked(player.getShield());
         player.setShield(0.0);
-        System.out.println("방어막 돌격!" + Double.toString(player.getShield()) + "만큼의 데미지를 주었다.");
         return 0;
     }
 
@@ -56,10 +55,10 @@ public class Vanguard extends SkillInfo implements Skill {
     public int Skill4(Player player, ArrayList<Monster> monsters, int target) {
 
         double success_rate = Math.random();
-        System.out.printf("%s %%의 확률로 곡예사 시전, ", Double.toString(success_rate * 100));
+        System.out.printf("%f%%의 확률로 곡예사 시전, ", success_rate * 100);
         if (Math.random() < success_rate){
             monsters.get(target).attacked(player.getATK() * 1.7);
-            System.out.print("성공!" + Double.toString(player.getATK() * 1.7) + "만큼의 데미지를 주고 공격을 회피했습니다.\n");
+            System.out.printf("성공! %.2f 만큼의 데미지를 주고 공격을 회피했습니다.\n", player.getATK() * 1.7);
         }else{
             player.setShield(player.getMaxShield());
             attacked(player, monsters, 2);
@@ -80,8 +79,9 @@ public class Vanguard extends SkillInfo implements Skill {
                 } else {
                     double damage = (monster.getATK() * ratio) - player.getShield();
                     player.setShield(0.0);
-                    player.setHP(player.getHP() - damage);
-                    System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 모두 소모되고 체력이 " + player.getHP() + "로 감소");
+                    player.attacked(damage);
+                    //player.setHP(player.getHP() - damage);
+                    //System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 모두 소모되고 체력이 " + player.getHP() + "로 감소");
                 }
             }
         }

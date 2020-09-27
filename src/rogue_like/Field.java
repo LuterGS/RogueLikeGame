@@ -72,6 +72,9 @@ public class Field {
 		if(checker == Numbers.SAFEHOUSE) this.meetSafeHouse();
 		if(checker == Numbers.STORE) this.meetStore();
 		if(checker == Numbers.END) this.finalBoss();
+
+		//일종의 행동이 끝나고 나면, 해당 칸을 그냥 PATH로 바꾼다.
+		map.setSpecificLocation(playerPos[0], playerPos[1], 0);
     }
  
 
@@ -102,8 +105,8 @@ public class Field {
     public void meetMonster(){
         //몬스터를 만났을 때 전투를 하는 메소드
 
-    	ArrayList<Monster> monsters = new ArrayList<Monster>();
-    	int monsterNum = 0;
+    	ArrayList<Monster> monsters = new ArrayList<>();
+    	int monsterNum;
 
     	//몬스터 객체 새로 생성함
 		//두 객체 이상의 몬스터가 나올수도 있기 때문에, 그 부분을 구현함
@@ -236,7 +239,7 @@ public class Field {
     public void printLiveMonster(ArrayList<Monster> monsters) {
     	for(int i =0 ; i < monsters.size(); i++) {
     		if(monsters.get(i).getHP() > 0) {
-    			System.out.println((i+1) + "번 " + monsters.get(i).getName() + ", 체력 : " + monsters.get(i).getHP() + "/" +monsters.get(i).getMaxHP());
+    			System.out.printf("%d번 %s, 체력 : %.2f / %.2f\n", i+1, monsters.get(i).getName(), monsters.get(i).getHP(), monsters.get(i).getMaxHP());
     		}else{
     			System.out.println((i+1) + "번 " + monsters.get(i).getName() + ", 사망");
 			}
@@ -281,7 +284,10 @@ public class Field {
         //출구에 도착했을 때 마지막 보스 만남
         // -> 설계상으론 자기 자신을 똑같이 만나면 괜찮을 것이라고 생각함
         // -> player 객체를 복사해서 만들면 될 듯
-        
+        System.out.println("던전의 끝에 도달했군요. 플레이해주셔서 감사합니다.");
+        System.out.println("건국대학교 2020 전공기초프로젝트2 Text-Based Rogue-Like game 제작팀");
+        System.out.println("고원재, 김우열, 윤동근, 이관석");
+
         // -> 이거 깨면 엔딩 나오면서 게임 종료
     }
 }
