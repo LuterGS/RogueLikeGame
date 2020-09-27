@@ -92,7 +92,7 @@ public class Field {
         //필드의 정보를 보여주는 메소드
     	for(int i = 0; i < map.getMapRow(); i++) {
     		for(int j = 0; j < map.getMapCol(); j++) {
-    			System.out.print(map.getSpecificLocation(i, j));
+    			System.out.print(changeMapToSymbol(map.getSpecificLocation(i, j)));
     			System.out.print(" ");
     		}
     		System.out.println();
@@ -242,6 +242,40 @@ public class Field {
 			}
     	}
     }
+    // 번호를 기호로 만드는 메소드 입니다. 폰크크기 오류있어서 수정하고 다시 사용하겠습니다. Edited by 원재: 20.09.27  4:50
+    public char changeMapToSymbol(int mapNum){
+
+    	//0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점, 8:시작, 9:끝
+		/*
+		 * 시작지점: □ 벽 : ■ 길 : ○ 목표: ☆ 현재위치: ◇ 몬스터: ◈ 상점: ♥ 휴식처: ♨
+		 */
+    	int num = mapNum;
+    	switch(num) {
+    		case 0:
+    		return '○';
+    		
+    		case 1:
+    		return '■';
+    		
+    		case 2:
+    		return '◈';
+    		
+    		case 3:
+    		return '♨';
+    		
+    		case 4:
+    		return '♥';
+
+    		case 8:
+    		return '□';
+    		
+    		case 9:
+    		return '☆';
+    		
+    	}
+
+    	return (char)mapNum;
+    	}
     
     public void finalBoss(){
         //출구에 도착했을 때 마지막 보스 만남

@@ -27,7 +27,7 @@ public class Player extends Life {
         //플레이어 스탯 조정 부분. 난이도를 추가한다면 여기를 좀 더 디테일하게 다듬어야함
         this.ATK = 10;
         this.DEF = 2;
-        this.maxHP = 80;
+        this.maxHP = 120;// 원래 80이었는데 포션 먹을때  max.hp와 hp가와 상이한 부분이있어 -되는 오류 있어서 120으로 수정합니다. by 원재 
         this.HP = this.maxHP;
 
         /*
