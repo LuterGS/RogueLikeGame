@@ -57,7 +57,7 @@ public class MapHandler {
         if (!mapFile.exists()) {
         	System.out.println(fileName + "이 존재하지 않습니다. 건너뜁니다...");
         	//존재하지 않을 시에 isValid에 대해 default value인 false 값을 가지고 있는 map 바로 반환
-        	map.errorMessage = "해당 맵이 존재 하지 않습니다. : " + map.mapName;
+			map.setErrorMessage("해당 맵이 존재 하지 않습니다. : " + map.getMapName());
         	return map;
         }
         
@@ -80,16 +80,16 @@ public class MapHandler {
         	//첫번 째 줄 형식 맞는지 확인
         	if (!line.matches(Numbers.FIRST_LINE_REGEX)) {
         		System.out.println("파일 내용 오류 - 1st line : " + line);
-        		map.errorMessage = "파일 첫 줄 오류";
+        		map.setErrorMessage("파일 첫 줄 오류");
         		return map;
         	}
         	st = new StringTokenizer(line, Numbers.MAP_CONTENTS_DELIM);
         	
         	//토큰 순서대로 대입
-        	map.monsterNum = Integer.parseInt(st.nextToken().trim());
-        	map.safehouseNum = Integer.parseInt(st.nextToken().trim());
-        	map.storeNum = Integer.parseInt(st.nextToken().trim());
-        	map.randomNum = Integer.parseInt(st.nextToken().trim());
+			map.setMonsterNum(Integer.parseInt(st.nextToken().trim()));
+			map.setSafehouseNum(Integer.parseInt(st.nextToken().trim()));
+			map.setStoreNum(Integer.parseInt(st.nextToken().trim()));
+			map.setRandomNum(Integer.parseInt(st.nextToken().trim()));
         	
         	/*
         	 * 두번째 줄 ~ : 맵의 내용을 읽기
@@ -100,7 +100,7 @@ public class MapHandler {
         		//내용 확인
         		if (!line.matches(Numbers.MAP_LINE_REGEX)) {
         			System.out.println("맵 구성 라인이 잘못되었습니다 : " + line);
-        			map.errorMessage = "맵 구성이 잘못되었습니다.";
+        			map.setErrorMessage("맵 구성이 잘못되었습니다.");
         			return map;
         		}
         		temp_map.add(line);
@@ -125,8 +125,8 @@ public class MapHandler {
             		}
             	}
         	} catch (IndexOutOfBoundsException e) {
-        		map.errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
-            	System.out.println(map.errorMessage);
+        		map.setErrorMessage("맵에는 0~9까지 숫자만 올 수 있습니다");
+            	System.out.println(map.getErrorMessage());
             	return map;
         	}
         	
@@ -134,7 +134,7 @@ public class MapHandler {
         catch (Exception e) {
         	//오류 발생 시에 오류 출력 후 null값 반환 
         	System.out.println(e.getMessage()); //<-------- 오류 확인 위한 임시 구문
-        	map.errorMessage = "에러: " + e.getMessage();
+			map.setErrorMessage("에러: " + e.getMessage());
         	return map;
         } finally {
         	if (br != null) {
@@ -154,15 +154,15 @@ public class MapHandler {
          */
         
         //유효성 검사
-        map.isValid = validate(input, map);
-        if (!map.isValid) { //메소드를 static으로 호출하면 errormessage가 적용이 안돼서 nonstatic으로 수정했습니다 
-        	System.out.println("map is not valid : " + map.mapName); //<----임시 구문
-        	System.out.println(map.errorMessage);
+		map.setValid(validate(input, map));
+        if (!map.getValid()) { //메소드를 static으로 호출하면 errormessage가 적용이 안돼서 nonstatic으로 수정했습니다
+        	System.out.println("map is not valid : " + map.getMapName()); //<----임시 구문
+        	System.out.println(map.getErrorMessage());
         	return map;
         }
         
         //검사 통과 후 맵에 대입
-        map.map = intCast(input);
+		map.setMap(intCast(input));
         
         /*
          * 맵이 완전히 유효 (시작과 끝이 있는 맵인지, entity들이 지정된 비율 내에 있는지...등등)한지
@@ -184,13 +184,13 @@ public class MapHandler {
 		
 		switch (entity) {
 		case Numbers.MONSTER:
-			count = map.monsterNum;
+			count = map.getMonsterNum();
 			break;
 		case Numbers.SAFEHOUSE:
-			count = map.safehouseNum;
+			count = map.getSafehouseNum();
 			break;
 		case Numbers.STORE:
-			count = map.storeNum;
+			count = map.getStoreNum();
 			break;
 		default:
 			//nothing
@@ -199,11 +199,11 @@ public class MapHandler {
 		
 		//개수가 잘못되면 무한 루프로 갈 수 있으므로 반드시 맵 형식 확인한 후에 사용
 		for (int i=0; i<count; i++) {
-			r = getRandomInt(map.map.length-1, 0);
-			c = getRandomInt(map.map[0].length-1, 0);
+			r = getRandomInt(map.getMapRow() - 1, 0);
+			c = getRandomInt(map.getMapCol() - 1, 0);
 			
-			if (map.map[r][c] == Numbers.PATH) {
-				map.map[r][c] = entity;
+			if (map.getSpecificLocation(r, c) == Numbers.PATH) {
+				map.setSpecificLocation(r, c, entity);
 			}
 			else {
 				i--;
@@ -215,25 +215,27 @@ public class MapHandler {
 		return (int)(Math.random() * max) + min;
 	}
 
+	//맵 검사 후 Field에서 불러올때 유효성을 검사하도록 하면 된다.
+	//여기서 이렇게 다 처리해줄 필요가 없음
 	public static boolean validate(String[][] stringMap, Map map) {
     	if (!isRect(stringMap)) {
-        	map.errorMessage = "맵이 사각형꼴이 아닙니다";
-        	System.out.println(map.errorMessage);
+    		map.setErrorMessage("맵이 사각형꼴이 아닙니다");
+        	System.out.println(map.getErrorMessage());
         	return false;
     	}
         else if(!isSingleDigitInt(stringMap)) {
-        	map.errorMessage = "맵에는 0~9까지 숫자만 올 수 있습니다";
-        	System.out.println(map.errorMessage);
+        	map.setErrorMessage("맵에는 0~9까지 숫자만 올 수 있습니다");
+        	System.out.println(map.getErrorMessage());
         	return false;
         }
         else if(!no0sInEdge(intCast(stringMap))) {
-        	map.errorMessage = "맵 가장자리에는 0이 올 수 없습니다";
-        	System.out.println(map.errorMessage);
+        	map.setErrorMessage("맵 가장자리에는 0이 올 수 없습니다");
+        	System.out.println(map.getErrorMessage());
         	return false;
         }
         else if(!isReachable(intCast(stringMap))) {
-        	map.errorMessage = "시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다";
-        	System.out.println(map.errorMessage);
+        	map.setErrorMessage("시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다");
+        	System.out.println(map.getErrorMessage());
         	return false;
         }
     	
@@ -268,14 +270,15 @@ public class MapHandler {
     private static boolean no0sInEdge(int[][] map) {
     	int row_len = map.length;
     	int col_len = map[0].length;
-    	
+
+    	//배열의 값 비교가 잘못되고 있어서 수정했습니다.
     	for(int i = 0; i < row_len; i++) {
-    		if(map[0][i] == 0 || map[col_len-1][i] == 0)
+    		if(map[i][0] == 0 || map[i][col_len-1] == 0)
     			return false;
     	}
     	
     	for(int i = 1; i < col_len - 1; i++) {
-    		if(map[i][0] == 0 || map[i][row_len-1] == 0)
+    		if(map[0][i] == 0 || map[row_len-1][i] == 0)
     			return false;
     	}
     	return true;

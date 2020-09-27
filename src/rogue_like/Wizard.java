@@ -1,69 +1,66 @@
 package rogue_like;
 
-import java.util.Random;
+import java.util.ArrayList;
 
-public class Wizard implements Skill{
+public class Wizard extends SkillInfo implements Skill {
 
-    private Random rand = new Random();
 
-    private String[] skillName = {
-            "화염구",
-            "눈보라",
-            "신비한 폭발",
-            "요그사론의 수수께끼 상자"
-    };
+    public Wizard(){
+        skillName[0] = "화염구";
+        skillName[1] = "눈보라";
+        skillName[2] = "신비한 폭발";
+        skillName[3] = "요그사론의 수수께끼 상자";
 
-    private String[] skillInfo = {
-            "적에게 내 공격력의 200%의 데미지를 입힙니다.",
-            "이번 턴의 적의 공격을 모두 막지만, 최대 체력의 10%에 해당하는 데미지를 입습니다.",
-            "적에게 70%의 데미지를 주지만, 만약 적의 현재 체력이 50% 이하일 경우, 50%의 확률로 적을 즉사시킵니다.",
-            "5번의 공격 (각각 공격력의 30~170% 사이 랜덤한 값)을 무작위 대상에게 (본인 포함) 난사합니다."
-    };
+        skillInfo[0] = "적에게 내 공격력의 200%의 데미지를 입힙니다.";
+        skillInfo[1] = "이번 턴의 적의 공격을 모두 막지만, 최대 체력의 10%에 해당하는 데미지를 입습니다.";
+        skillInfo[2] = "적에게 70%의 데미지를 주지만, 만약 적의 현재 체력이 50% 이하일 경우, 50%의 확률로 적을 즉사시킵니다.";
+        skillInfo[3] = "5번의 공격 (각각 공격력의 30~170% 사이 랜덤한 값)을 무작위 대상에게 (본인 포함) 난사합니다.";
 
+        selectSpecificMonster = new boolean[]{true, false, true, false};
+    }
 
     @Override
-    public int Skill1(Player player,  Monster[] monsters, int target) {
-        monsters[target].attacked(player.getATK()* 2);
+    public int Skill1(Player player, ArrayList<Monster> monsters, int target) {
+        monsters.get(target).attacked(player.getATK() * 2);
         attacked(player, monsters, 1);
-
-
         return 0;
     }
 
     @Override
-    public int Skill2(Player player,  Monster[] monsters, int target) {
+    public int Skill2(Player player,  ArrayList<Monster> monsters, int target) {
         player.setHP(player.getMaxHP() * 0.1);
         return 0;
     }
 
     @Override
-    public int Skill3(Player player,  Monster[] monsters, int target) {
+    public int Skill3(Player player,  ArrayList<Monster> monsters, int target) {
 
-        if(monsters[target].getHP() <= monsters[target].getMaxHP() * 0.5){
+        if(monsters.get(target).getHP() <= monsters.get(target).getMaxHP() * 0.5){
             if(Math.random() <= 0.5){
-                monsters[target].setHP(0.0);
+                monsters.get(target).setHP(0.0);
             }else{
-                monsters[target].attacked(player.getATK() * 0.7);
+                monsters.get(target).attacked(player.getATK() * 0.7);
             }
         }else{
-            monsters[target].attacked(player.getATK() * 0.7);
+            monsters.get(target).attacked(player.getATK() * 0.7);
         }
 
         return 0;
     }
 
     @Override
-    public int Skill4(Player player,  Monster[] monsters, int target) {
+    public int Skill4(Player player,  ArrayList<Monster> monsters, int target) {
 
         int selector;
         double damage;
 
         for(int i = 0; i < 5; i++){
-            selector = rand.nextInt(monsters.length + 1);
+            selector = rand.nextInt(monsters.size() + 1);
             damage = player.getATK() * ((Math.random() * 140) + 30.0);
-            if(selector < monsters.length){
-                monsters[selector].attacked(damage);
+            if(selector < monsters.size()){
+                monsters.get(selector).attacked(damage);
             }else{
+                System.out.println("플레이어에게 스스로 공격! 데미지를 받았다.");
                 player.setHP(player.getHP() - damage);
             }
         }
@@ -71,22 +68,16 @@ public class Wizard implements Skill{
     }
 
     @Override
-    public int attacked(Player player, Monster[] monsters, double ratio){
+    public int attacked(Player player, ArrayList<Monster> monsters, double ratio){
         for(Monster monster: monsters){
             singleAttacked(player, monster, ratio);
         }
         return 0;
     }
 
-    public int singleAttacked(Player player, Monster monster, double ratio){
-        player.setHP(player.getHP() - (monster.attack() * ratio));
-        return 0;
-    }
-
-    @Override
-    public void showSkill() {
-        for(int i = 0; i < 4; i++){
-            System.out.println(skillName[i] + "         " + skillInfo[i]);
+    public void singleAttacked(Player player, Monster monster, double ratio){
+        if(monster.getHP() > 0.0) {
+            player.setHP(player.getHP() - (monster.attack() * ratio));
         }
     }
 }

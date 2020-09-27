@@ -13,8 +13,8 @@ public class Monster extends Life{
         this.name = Names.get_name(this);
         this.maxHP = 100;
         this.HP = maxHP;
-        this.ATK = 30;
-        this.DEF = 20;
+        this.ATK = 10;
+        this.DEF = 5;
 
     }
 
@@ -24,6 +24,7 @@ public class Monster extends Life{
 
         //데미지가 방어력에 따라 경감되는 부분. 퍼센트로 변경같이 디테일하게 변경 가능
         damage -= DEF;
+        if(damage < 0) damage = 0;
         double beforeAttacked = this.HP;
         this.HP -= damage;
         // edited by 원재, 전투 로직 짤때 필요할거 같아서 추가했슴다.

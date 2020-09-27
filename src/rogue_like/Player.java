@@ -1,5 +1,6 @@
 package rogue_like;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player extends Life {
@@ -12,18 +13,16 @@ public class Player extends Life {
      * location 할당 함수를 만들어서 field가 생성될 때 호출을 하던가
      * (플레이어 위치도 결국은 Field에만 가지고 있는 값이니까 )
      * Player 위치 자체를 Field의 멤버함수로 바꿔서 플레이어의 위치를 Field에서 관리하는 방법도
-     * 괜찮을거 같습니다.
+     * 괜찮을거 같습니다. -> map에서 저장하도록 바꿨습니다~
      */
-    private int[] location = new int[2]; 
 
     private Player(){
 
         int skillSelect;
 
-        System.out.println("플레이어의 이름을 입력해주세요 : ");
+        System.out.print("플레이어의 이름을 입력해주세요 : ");
         this.name = scan.nextLine();
-        System.out.println("플레이어의 직업을 선택"); //추후에 Prints에 구현해서 선택하도록 함
-        skillSelect = scan.nextInt(2);
+        skillSelect = Checker.getInt(1, 3, "플레이어의 직업을 선택해주세요. 1번은 Vanguard, 2번은 Assassin, 3번은 Wizard 입니다 : ");
 
         //플레이어 스탯 조정 부분. 난이도를 추가한다면 여기를 좀 더 디테일하게 다듬어야함
         this.ATK = 10;
@@ -53,31 +52,11 @@ public class Player extends Life {
         return player;
     }
 
-    //상 과 하가 반대로 되있어서 수정했습니다. - 김우열
-    public void move(String moveDirection, int moveRange){
-        //매개변수는 나중에 수정 가능
-        switch (moveDirection) {
-            case Numbers.UP:
-                player.location[0] -= moveRange;
-                break;
-            case Numbers.DOWN:
-                player.location[0] += moveRange;
-                break;
-            case Numbers.LEFT:
-                player.location[1] -= moveRange;
-                break;
-            case Numbers.RIGHT:
-                player.location[1] += moveRange;
-        }
+    public void attack(ArrayList<Monster> monsters){
 
-        System.out.println(this.name + " 이/가 " + moveDirection + "으로 " + Integer.toString(moveRange) + "칸 이동했다!");
-    }
-
-
-    public double attack(Monster[] monsters, int target){
-
-        System.out.print("사용할 스킬을 골라주세요");
-        int select = scan.nextInt(3);
+        int select = Checker.getInt(1, 4, "사용할 스킬을 골라주세요 : ");
+        int target = 0;
+        if(skill.getSkillTargeted(select)) target = (Checker.getInt(1, monsters.size(), "사용할 몬스터를 선택해주세요 : ") - 1);
 
         if(select == 1){
             this.skill.Skill1(this, monsters, target);
@@ -85,10 +64,9 @@ public class Player extends Life {
             this.skill.Skill2(this, monsters, target);
         }else if(select == 3){
             this.skill.Skill3(this, monsters, target);
+        }else if(select == 4){
+            this.skill.Skill4(this, monsters, target);
         }
-
-        //몬스터가 죽었는지에 대한 여부를 return하게끔
-        return 0;
     }
 
 
@@ -98,7 +76,7 @@ public class Player extends Life {
         
         if(select == 1){
             this.skill = new Vanguard();
-            this.maxShield = 10;
+            this.maxShield = 20;
             this.shield = this.maxShield;
         }else if(select == 2){
             this.skill = new Assassin();
@@ -107,12 +85,16 @@ public class Player extends Life {
         }
     }
 
-    public Skill getSkill() {
-    	return this.skill;
+    public void printSkill(){
+        skill.showSkill();
     }
-    //skillChecker에서 skill받아오는게 필요해서 만들었습니다.
-    
-    public int[] getLocation() {
-        return location;
+
+    public void printPlayerInfo(){
+        System.out.println("플레이어 이름 : " + this.name);
+        System.out.println("체력 : " + this.HP + "/" + this.maxHP);
+        if(this.maxShield == 20) System.out.println("방어막 : " + this.shield + "/" + this.maxShield);
+        System.out.println("공격력 : " + this.ATK);
+        System.out.println("방어력 : " + this.DEF);
     }
+
 }

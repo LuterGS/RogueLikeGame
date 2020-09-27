@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 public class Checker {
 
-    public static Scanner scan = new Scanner(System.in);
+    private static final Scanner scan = new Scanner(System.in);
 
     public static int getInt(int min, int max, String printInfo){
 
@@ -41,7 +41,7 @@ public class Checker {
                 value = 0;
             }finally{
                 scan.nextLine();
-                if (value >= 1 && value <= maps.length && maps[value - 1].isValid) {
+                if (value >= 1 && value <= maps.length && maps[value - 1].getValid()) {
                     return value - 1;
                 }else {
                     System.out.print(printInfo);
@@ -103,10 +103,8 @@ public class Checker {
      * 입력한 문자열이 올바르면 return {direction, length}
      * 그렇지 않으면 에러 확인 후 return null
      */
-    public static String[] moveCheck(String moveInput) {
-    	String[] arr = new String[2];
-    	String dir = null;
-    	int len = 0;
+    public static int[] moveCheck(String moveInput) {
+    	int[] arr = new int[2];
     	
     	int way = 0;
     	
@@ -131,13 +129,13 @@ public class Checker {
         	StringTokenizer st = new StringTokenizer(moveInput, Numbers.EMPTY_SPACE);
         	//앞에 먼저 방향이 오는 경우
         	if (way == 1) {
-        		arr[0] = st.nextToken();
-        		arr[1] = st.nextToken();
+        		arr[0] = directionStrToInt(st.nextToken());
+        		arr[1] = Integer.parseInt(st.nextToken());
         	}
         	//앞에 먼저 숫자가 오는 경우
         	else {
-        		arr[1] = st.nextToken();
-        		arr[0] = st.nextToken();
+        		arr[1] = Integer.parseInt(st.nextToken());
+        		arr[0] = directionStrToInt(st.nextToken());
         	}
     	} catch (Exception e) {
     		e.printStackTrace(); // for test
@@ -147,7 +145,8 @@ public class Checker {
     	
 		return arr;
     }
-	
+
+    /*
     public int skillChecker(String input, Player player) {
     	String tempInput = input;
     	Skill tempSkill = player.getSkill();//getSkill 메소드를 만들어서 tempSkill에 player에 스킬을 넣음
@@ -159,6 +158,22 @@ public class Checker {
     	}   	
     	System.out.println("스킬이 제대로 입력되지 않았습니다!");
     	return -1;//제대로 스킬이 입력되지 않았을때는 -1출력하게 했습니다.
+    }*/
 
-    }
+    public static int[] getFieldMoveInput(String inputString){
+
+    	if(inputString.equals("맵 출력")){
+    		return new int[]{0, 0};
+		}
+
+    	else return moveCheck(inputString);
+	}
+
+	public static int directionStrToInt(String direction){
+    	if(direction.equals(Numbers.UP)) return Numbers.UP_INT;
+    	if(direction.equals(Numbers.DOWN)) return Numbers.DOWN_INT;
+    	if(direction.equals(Numbers.LEFT)) return Numbers.LEFT_INT;
+    	if(direction.equals(Numbers.RIGHT)) return Numbers.RIGHT_INT;
+    	else return Numbers.ERROR;
+	}
 }

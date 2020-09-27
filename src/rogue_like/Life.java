@@ -53,4 +53,12 @@ public class Life {
     public void setHP(double HP){
         this.HP = HP;
     }
+
+    public void setATK(double ATK) {
+        this.ATK = ATK;
+    }
+
+    public void setDEF(double DEF) {
+        this.DEF = DEF;
+    }
 }

@@ -1,5 +1,7 @@
 package rogue_like;
 
+import java.util.Scanner;
+
 public class Game {
 	private MapHandler handler;
 
@@ -15,7 +17,6 @@ public class Game {
         // 맵 선택
         Map gameMap = chooseMap();
         Help.mapIcons();
-        gameMap.printMap();
 
         // 플레이어 생성
         this.player = Player.makeOne();
@@ -45,13 +46,13 @@ public class Game {
     	this.maps = handler.getMaps();
     	
         for(int i = 0; i < maps.length; i++){
-            if(!maps[i].isValid){
-                System.out.println(maps[i].mapName + " 은 열 수 없습니다 (잘못된 형식의 맵입니다)");
+            if(!maps[i].getValid()){
+                System.out.println(maps[i].getMapName() + " 은 열 수 없습니다 (잘못된 형식의 맵입니다)");
             }else{
-                System.out.println(Integer.toString(i+1) + ". 맵 이름 : " + maps[i].mapName +
-                                "  몬스터 수 : " + Integer.toString(maps[i].monsterNum) +
-                                "    안식처 수 : " + Integer.toString(maps[i].safehouseNum) +
-                                "   상점 수 : " + Integer.toString(maps[i].storeNum)
+                System.out.println(Integer.toString(i+1) + ". 맵 이름 : " + maps[i].getMapName() +
+                                "  몬스터 수 : " + Integer.toString(maps[i].getMonsterNum()) +
+                                "    안식처 수 : " + Integer.toString(maps[i].getSafehouseNum()) +
+                                "   상점 수 : " + Integer.toString(maps[i].getStoreNum())
                 );
             }
         }
@@ -62,6 +63,25 @@ public class Game {
 
     private void playGame(Field field){
 
+        Scanner scan = new Scanner(System.in);
+        int[] inputResult;
+        while(true){
+            System.out.print("\"맵 출력\"을 입력하면 맵을 출력하고, 방향+칸수 혹은 칸수+방향을 입력하면 이동합니다. 값을 입력해 주세요 : ");
+            inputResult = Checker.getFieldMoveInput(scan.nextLine());
+            if(inputResult == null) {
+                System.out.println("잘못된 입력입니다!");
+            }else if(inputResult[0] == 0){
+                field.showField();
+            }else {
+                field.showField();
+                field.move(inputResult);
+            }
+
+            if(!field.isPlayable()){
+                System.out.println("게임에서 패배했습니다! 게임을 종료합니다");
+                break;
+            }
+        }
         //필드 생성한거 토대로 게임함.
         //필드 안에 있는 로직을 돌아가게 할것인지 or 여기서 게임을 돌아게게 할 것인지.
     }

@@ -4,16 +4,17 @@ import java.util.concurrent.TimeUnit;
 public class Map {
 
     //맵에 관련된 로직을 처리하는 클래스. 맵 렌더링 후 전체값을 게임에 전달하는 부분 위주
-    int [][] map;
+    private int [][] map;
+    private int[] playerPos;
     //Edited by 이관석, 2020.09.20 17:00
     //-> 플레이어 위치를 나타내는 map_x, map_y를 Player 클래스 내에 넣음
-    int monsterNum;
-    int safehouseNum;
-    int storeNum;
-    int randomNum;
-    String mapName;
-    String errorMessage = "";
-    boolean isValid;
+    private int monsterNum;
+    private int safehouseNum;
+    private int storeNum;
+    private int randomNum;
+    private String mapName;
+    private String errorMessage = "";
+    private boolean isValid;
     
     
     //mapName 저장시에 .txt 뺴고 저장 하도록 변경하였음
@@ -39,7 +40,92 @@ public class Map {
     	}
     	return null;
     }
-   
+
+    public int checkLocation(int[] position){
+        if(!checkValid(position)) return Numbers.OUT_OF_MAP;
+        else return map[position[0]][position[1]];
+    }
+
+    private boolean checkValid(int[] position){
+        try {
+            this.map[position[0]][position[1]] = this.map[position[0]][position[1]];
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            return false;
+        }
+        return true;
+    }
+
+    public void setPlayerPos(int[] position){
+        this.playerPos = position;
+    }
+
+    public int[] getPlayerPos() {
+        return playerPos;
+    }
+
+    public int getMonsterNum() {
+        return monsterNum;
+    }
+
+    public int getSafehouseNum() {
+        return safehouseNum;
+    }
+
+    public int getStoreNum() {
+        return storeNum;
+    }
+
+    public int getMapRow(){ return map.length; }
+
+    public int getMapCol(){ return map[0].length; }
+
+    public void setMonsterNum(int monsterNum) {
+        this.monsterNum = monsterNum;
+    }
+
+    public void setSafehouseNum(int safehouseNum) {
+        this.safehouseNum = safehouseNum;
+    }
+
+    public void setStoreNum(int storeNum) {
+        this.storeNum = storeNum;
+    }
+
+    public void setRandomNum(int randomNum) {
+        this.randomNum = randomNum;
+    }
+
+    public int getSpecificLocation(int x, int y){ return map[x][y];}
+
+    public void setSpecificLocation(int x, int y, int target){
+        map[x][y] = target;
+    }
+
+    public boolean getValid() {
+        return isValid;
+    }
+
+    public void setErrorMessage(String errorMessage){
+        this.errorMessage = errorMessage;
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
+    }
+
+    public void setMap(int[][] map){
+        this.map = map;
+    }
+
     /*
     public static void main(String[] args) {
     	String[][] dummy_input = {{"1", "9", "1", "1", "1"}, // 0:길, 1:벽, 8:시작, 9:끝
