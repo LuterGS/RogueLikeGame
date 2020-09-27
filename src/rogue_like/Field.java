@@ -31,7 +31,7 @@ public class Field {
 	}
 
     //Edited by 김우열, 2020.09.25 04:00
-    public void move(int[] inputResult){
+    public int move(int[] inputResult){
     	int moveLen = inputResult[1];
     	int moveDirection = inputResult[0];
     	int possibleLen = 0, checker = 0;
@@ -71,11 +71,12 @@ public class Field {
 		if(checker == Numbers.MONSTER) this.meetMonster();
 		if(checker == Numbers.SAFEHOUSE) this.meetSafeHouse();
 		if(checker == Numbers.STORE) this.meetStore();
-		if(checker == Numbers.END) this.finalBoss();
+		if(checker == Numbers.END) {this.finalBoss(); return 1;}
 
 		//일종의 행동이 끝나고 나면, 해당 칸을 그냥 PATH로 바꾼다.
 		map.setSpecificLocation(playerPos[0], playerPos[1], 0);
-    }
+		return 0;
+	}
  
 
     // 기존에 주석으로 정의했던 부분을 Numbers 클래스에 상수로 선언

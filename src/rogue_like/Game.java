@@ -49,10 +49,10 @@ public class Game {
             if(!maps[i].getValid()){
                 System.out.println(maps[i].getMapName() + " 은 열 수 없습니다 (잘못된 형식의 맵입니다)");
             }else{
-                System.out.println(Integer.toString(i+1) + ". 맵 이름 : " + maps[i].getMapName() +
-                                "  몬스터 수 : " + Integer.toString(maps[i].getMonsterNum()) +
-                                "    안식처 수 : " + Integer.toString(maps[i].getSafehouseNum()) +
-                                "   상점 수 : " + Integer.toString(maps[i].getStoreNum())
+                System.out.println((i+1) + ". 맵 이름 : " + maps[i].getMapName() +
+                                "  몬스터 수 : " + (maps[i].getMonsterNum()) +
+                                "    안식처 수 : " + (maps[i].getSafehouseNum()) +
+                                "   상점 수 : " + (maps[i].getStoreNum())
                 );
             }
         }
@@ -74,7 +74,9 @@ public class Game {
                 field.showField();
             }else {
                 field.showField();
-                field.move(inputResult);
+                if(field.move(inputResult) == 1){
+                    break;
+                }
             }
 
             if(!field.isPlayable()){
