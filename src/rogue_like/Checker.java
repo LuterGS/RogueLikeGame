@@ -80,12 +80,12 @@ public class Checker {
     	int col_len = map[0].length;
     	
     	for(int i = 0; i < row_len; i++) {
-    		if(map[0][i] == 0 || map[col_len-1][i] == 0)
+    		if(map[i][0] == 0 || map[i][col_len-1] == 0)
     			return false;
     	}
     	
     	for(int i = 1; i < col_len - 1; i++) {
-    		if(map[i][0] == 0 || map[i][row_len-1] == 0)
+    		if(map[0][i] == 0 || map[row_len-1][i] == 0)
     			return false;
     	}
     	return true;
@@ -165,7 +165,9 @@ public class Checker {
     	if(inputString.equals("맵 출력")){
     		return new int[]{0, 0};
 		}
-
+    	else if(inputString.equals("도움말")) {
+    		return new int[]{1, 0};
+    	}
     	else return moveCheck(inputString);
 	}
 

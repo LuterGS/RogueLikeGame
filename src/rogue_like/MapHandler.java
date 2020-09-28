@@ -218,22 +218,22 @@ public class MapHandler {
 	//맵 검사 후 Field에서 불러올때 유효성을 검사하도록 하면 된다.
 	//여기서 이렇게 다 처리해줄 필요가 없음
 	public static boolean validate(String[][] stringMap, Map map) {
-    	if (!isRect(stringMap)) {
+    	if (!Checker.isRect(stringMap)) {
     		map.setErrorMessage("맵이 사각형꼴이 아닙니다");
         	System.out.println(map.getErrorMessage());
         	return false;
     	}
-        else if(!isSingleDigitInt(stringMap)) {
+        else if(!Checker.isSingleDigitInt(stringMap)) {
         	map.setErrorMessage("맵에는 0~9까지 숫자만 올 수 있습니다");
         	System.out.println(map.getErrorMessage());
         	return false;
         }
-        else if(!no0sInEdge(intCast(stringMap))) {
+        else if(!Checker.no0sInEdge(intCast(stringMap))) {
         	map.setErrorMessage("맵 가장자리에는 0이 올 수 없습니다");
         	System.out.println(map.getErrorMessage());
         	return false;
         }
-        else if(!isReachable(intCast(stringMap))) {
+        else if(!Checker.isReachable(intCast(stringMap))) {
         	map.setErrorMessage("시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다");
         	System.out.println(map.getErrorMessage());
         	return false;
@@ -243,53 +243,6 @@ public class MapHandler {
     	return true;
     }
 
-    private static boolean isRect(String[][] stringMap) {
-    	int row_len = stringMap[0].length;
-    	for(int i = 1; i < stringMap.length; i++) {
-    		if(stringMap[i].length != row_len) return false;
-    	}
-    	return true;
-    }
-    
-    private static boolean isSingleDigitInt(String[][] stringMap) {
-    	for(int i = 0; i < stringMap.length; i++) {
-    		for(int j = 0; j < stringMap[i].length; j++) {
-    			int tmp;
-    			try {
-    				tmp = Integer.parseInt(stringMap[i][j]); 
-    			}
-    			catch (NumberFormatException e){
-    				return false;
-    			}
-    			if (tmp < 0 || tmp >9) return false;
-    		}
-    	}
-    	return true;
-    }
-    
-    private static boolean no0sInEdge(int[][] map) {
-    	int row_len = map.length;
-    	int col_len = map[0].length;
-
-    	//배열의 값 비교가 잘못되고 있어서 수정했습니다.
-    	for(int i = 0; i < row_len; i++) {
-    		if(map[i][0] == 0 || map[i][col_len-1] == 0)
-    			return false;
-    	}
-    	
-    	for(int i = 1; i < col_len - 1; i++) {
-    		if(map[0][i] == 0 || map[row_len-1][i] == 0)
-    			return false;
-    	}
-    	return true;
-    }
-    
-    private static boolean isReachable(int[][] map){//BFS
-    	Graph g = new Graph(map);
-    	if(g.isTraversable())
-    		return true;
-    	else return false;
-    }
     
     private static int[][] intCast(String[][] stringMap) { //String 배열에서 int 배열로 형변환
     	int[][] intMap = new int[stringMap.length][stringMap[0].length];

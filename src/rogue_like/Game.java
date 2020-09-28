@@ -16,8 +16,7 @@ public class Game {
 
         // 맵 선택
         Map gameMap = chooseMap();
-        Help.mapIcons();
-
+        
         // 플레이어 생성
         this.player = Player.makeOne();
         this.field = new Field(gameMap, this.player);
@@ -66,13 +65,17 @@ public class Game {
         Scanner scan = new Scanner(System.in);
         int[] inputResult;
         while(true){
-            System.out.print("\"맵 출력\"을 입력하면 맵을 출력하고, 방향+칸수 혹은 칸수+방향을 입력하면 이동합니다. 값을 입력해 주세요 : ");
+            System.out.print("\"맵 출력\"을 입력하면 맵을 출력하고, 방향+칸수 혹은 칸수+방향을 입력하면 이동합니다. 도움말을 보려면 \"도움말\"을 입력하세요. 값을 입력해 주세요 : ");
             inputResult = Checker.getFieldMoveInput(scan.nextLine());
             if(inputResult == null) {
-                System.out.println("잘못된 입력입니다!");
+                System.out.println("잘못된 입력입니다! 도움말을 보려면 \"도움말\"을 입력하세요");
             }else if(inputResult[0] == 0){
                 field.showField();
-            }else {
+            }else if(inputResult[0] == 1) {
+            	Help.mapIcons();
+            	Help.move();
+            }
+            else {
                 field.showField();
                 field.move(inputResult);
             }
