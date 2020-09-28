@@ -92,7 +92,8 @@ public class Field {
         //필드의 정보를 보여주는 메소드
     	for(int i = 0; i < map.getMapRow(); i++) {
     		for(int j = 0; j < map.getMapCol(); j++) {
-    			System.out.print(changeMapToSymbol(map.getSpecificLocation(i, j)));
+    			System.out.print(map.getSpecificLocation(i, j));
+    			//System.out.print(changeMapToSymbol(map.getSpecificLocation(i, j)));
     			System.out.print(" ");
     		}
     		System.out.println();
