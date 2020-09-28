@@ -43,6 +43,8 @@ public class Numbers {
 	public static final int SAFEHOUSE = 3;
 	public static final int STORE = 4;
 	public static final int OUT_OF_MAP = 10;
+	public static final int PLAYER_POS = 5;
+	public static final int PASSED = 6;//지나간 길
 	
 	//이 비율은 게임 벨런스 및 컨턴츠 내용 조정에서 확인하고 수정해야될 사항
 	//임시로 지정한 것이므로 마음대로 바꿔서 확인...
