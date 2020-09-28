@@ -53,7 +53,7 @@ public class Game {
     	
         for(int i = 0; i < maps.length; i++){
             if(!maps[i].getValid()){
-                System.out.println(maps[i].getMapName() + " 은 열 수 없습니다 (잘못된 형식의 맵입니다)");
+                System.out.println(maps[i].getMapName() + " 은 열 수 없습니다. " + maps[i].getErrorMessage());
             }else{
                 System.out.println((i+1) + ". 맵 이름 : " + maps[i].getMapName() +
                                 "  몬스터 수 : " + (maps[i].getMonsterNum()) +
@@ -62,7 +62,7 @@ public class Game {
                 );
             }
         }
-        int value = Checker.getMapNum(maps, "맵 번호를 골라주세요.");
+        int value = Checker.getMapNum(maps, "맵 번호를 골라주세요: ");
 
         return maps[value];
     }
