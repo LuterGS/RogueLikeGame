@@ -49,14 +49,14 @@ public class Field {
 			playerPos[1] += dy[moveDirection - Numbers.DIRECTION_INT_DIFF];
 			//System.out.println("테스트 위치 : " + Arrays.toString(playerPos));
 			checker = map.checkLocation(playerPos);
-			if(checker == Numbers.PATH || checker == Numbers.START || checker == Numbers.END){
+			if(checker == Numbers.PATH || checker == Numbers.START){ //checker == END를 맨 밑에 else if로 이동했음
 				possibleLen += 1;
 			}else if(checker == Numbers.WALL || checker == Numbers.OUT_OF_MAP){
 				System.out.println("벽이 있어 " + moveLen + "칸 만큼 이동할 수 없습니다.");
 				playerPos[0] -= dx[moveDirection - Numbers.DIRECTION_INT_DIFF];
 				playerPos[1] -= dy[moveDirection - Numbers.DIRECTION_INT_DIFF];
 				break;
-			}else if(checker == Numbers.MONSTER || checker == Numbers.SAFEHOUSE || checker == Numbers.STORE){
+			}else if(checker == Numbers.MONSTER || checker == Numbers.SAFEHOUSE || checker == Numbers.STORE || checker == Numbers.END){
 				System.out.println("이동 중 이벤트를 만났습니다.");
 				possibleLen += 1;
 				break;
