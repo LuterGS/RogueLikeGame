@@ -38,18 +38,13 @@ public class Game {
     }
 
     private Map chooseMap(){
+    	//선택 할 수 있는 맵이 있는지 확인
+    	boolean validFlag = false;
     	//map과 maphandler를 구분함에 따라 구문을 살짝 변경했습니다.
     	
         //maps = Map.loadMaps(); //기존 구문
     	handler = new MapHandler(); //호출과 동시에 맵 로드
     	this.maps = handler.getMaps();
-    	
-    	//현재 맵이 하나도 없는 경우 종료
-    	if (this.maps.length == 0) {
-    		System.out.println("현재 저장된 맵이 없습니다. 실행 파일의 위치에 있는 'maps' 폴더에 파일을 생성해주세요.");
-    		System.out.println("게임을 종료합니다...");
-        	System.exit(0);
-    	}
     	
         for(int i = 0; i < maps.length; i++){
             if(!maps[i].getValid()){
@@ -62,6 +57,15 @@ public class Game {
                 );
             }
         }
+        
+        //사용할 수 있는 맵이 없을 경우 종료
+    	if (!validFlag) {
+    		System.out.println("현재 저장된 맵이 없거나, 정상적으로 로드할 수 있는 맵 파일이 없습니다."); 
+    		System.out.println("실행 파일의 위치에 있는 'maps' 폴더의 맵 파일을 확인해주세요.");
+    		System.out.println("게임을 종료합니다...");
+        	System.exit(0);
+    	}
+    	
         int value = Checker.getMapNum(maps, "맵 번호를 골라주세요: ");
 
         return maps[value];

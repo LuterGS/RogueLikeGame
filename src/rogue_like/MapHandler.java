@@ -47,6 +47,7 @@ public class MapHandler {
      * @param fileName: 파일 이름 (오직 파일 이름만 있음. 루트 따로 지정 필요)
      * 인자로 받은 fileName에 대해서 파일을 읽은 후 유효성을 검사 후에 map 반환
      * 유효하지 않으면 isValid에 대해 default value인 false 값을 가지고 있는 map 바로 반환
+     * 맵 정보는 공백 허용 X
      */
     public static Map loadMap(String fileName){
     	Map map = new Map(fileName); //임시로 객체 생성 내용 변경 후 반환
@@ -91,15 +92,27 @@ public class MapHandler {
 			map.setStoreNum(Integer.parseInt(st.nextToken().trim()));
 			map.setRandomNum(Integer.parseInt(st.nextToken().trim()));
         	
-        	/*
-        	 * 두번째 줄 ~ : 맵의 내용을 읽기
-        	 * 다음 라인이 없을 때 까지 계속 읽음
-        	 * */
+			/*
+        	 * 파일에 있는 맵이 직사각형이 아닐 때
+        	 * 이 부분에서  ArrayIndexOutOfBoundsException 발생 
+        	 * 기존 코드는 index가 모자라는 경우만 구별 했었음
+        	 * -> 직사각형진 완전히 확인하는 코드로 수정 (2020.09.28(Mon))
+ 9        	 */
         	ArrayList<String> temp_map = new ArrayList<>();
+        	int len = 0; //직사각형인지 확인하기 위한 변수
+        	line = br.readLine();
+        	len = line.length();
+        	//내용 확인
+    		if (!line.matches(Numbers.MAP_LINE_REGEX)) {
+    			System.out.println("맵 구성 라인이 잘못되었습니다 : " + line);
+    			map.setErrorMessage("맵 구성이 잘못되었습니다.");
+    			return map;
+    		}
+    		temp_map.add(line);
+    		
         	while ((line = br.readLine()) != null) {
-        		//내용 확인
-        		if (!line.matches(Numbers.MAP_LINE_REGEX)) {
-        			System.out.println("맵 구성 라인이 잘못되었습니다 : " + line);
+        		if (len != line.length() || (!line.matches(Numbers.MAP_LINE_REGEX))) {
+        			System.out.println("맵 구성 라인이 잘못되었습니다 : '" + line +"'");
         			map.setErrorMessage("맵 구성이 잘못되었습니다.");
         			return map;
         		}
