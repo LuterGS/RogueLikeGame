@@ -41,7 +41,7 @@ public class Life {
     public void attacked(double damage){
 
         damage -= DEF;
-        if(damage < 0) {
+        if(damage <= 0) {
             System.out.println("방어력이 너무 높아 데미지를 입지 않았다!");
         }else{
             double beforeAttacked = this.HP;
