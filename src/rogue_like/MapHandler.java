@@ -233,6 +233,11 @@ public class MapHandler {
         	System.out.println(map.getErrorMessage());
         	return false;
         }
+        else if(!Checker.hasStartEnd(intCast(stringMap))) {
+        	map.setErrorMessage("맵에 시작지점 또는 목표가 없습니다");
+        	System.out.println(map.getErrorMessage());
+        	return false;
+        }
         else if(!Checker.isReachable(intCast(stringMap))) {
         	map.setErrorMessage("시작점에서 끝까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다");
         	System.out.println(map.getErrorMessage());

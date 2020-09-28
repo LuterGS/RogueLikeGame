@@ -91,6 +91,22 @@ public class Checker {
     	return true;
     }
     
+    public static boolean hasStartEnd(int[][] map) {
+    	boolean start_flag = false;
+    	boolean end_flag = false;
+    	for(int i = 0; i < map.length; i++) {
+    		for(int j = 0; j < map[0].length; j++) {
+    			if(map[i][j] == Numbers.START)
+    				start_flag = true;
+    			else if(map[i][j] == Numbers.END)
+    				end_flag = true;
+    			if(start_flag && end_flag)
+    				return true;
+    		}
+    	}
+    	return false;
+    }
+    
     public static boolean isReachable(int[][] map){//BFS
     	Graph g = new Graph(map);
     	if(g.isTraversable())
