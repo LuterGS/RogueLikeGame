@@ -23,6 +23,7 @@ public class Checker {
                 if (value >= min && value <= max) {
                     return value;
                 }else {
+                	System.out.println("잘못 입력하셨습니다. " + min + " ~ " + max + " 의  정수를 입력해주세요.");
                     System.out.print(printInfo);
                 }
             }
@@ -44,6 +45,7 @@ public class Checker {
                 if (value >= 1 && value <= maps.length && maps[value - 1].getValid()) {
                     return value - 1;
                 }else {
+                	System.out.println("잘못 입력하셨습니다. 1 ~ " + maps.length + " 의 정수를 입력해주세요.");
                     System.out.print(printInfo);
                 }
             }
