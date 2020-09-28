@@ -45,20 +45,24 @@ public class Field {
 
 		//System.out.println("방향 : " + moveDirection);
 		for(int i = 0; i < moveLen; i++){
+			map.setSpecificLocation(playerPos[0], playerPos[1] , Numbers.PASSED);// 지나간길 표시
 			playerPos[0] += dx[moveDirection - Numbers.DIRECTION_INT_DIFF];
 			playerPos[1] += dy[moveDirection - Numbers.DIRECTION_INT_DIFF];
 			//System.out.println("테스트 위치 : " + Arrays.toString(playerPos));
 			checker = map.checkLocation(playerPos);
-			if(checker == Numbers.PATH || checker == Numbers.START){ //checker == END를 맨 밑에 else if로 이동했음
+			if(checker == Numbers.PATH || checker == Numbers.START || checker == Numbers.PASSED){ //checker == END를 맨 밑에 else if로 이동했음
 				possibleLen += 1;
+				map.setSpecificLocation(playerPos[0], playerPos[1] , Numbers.PLAYER_POS);//플레이어의 이동이 끝나서 맵에 플레이어 위치 추가
 			}else if(checker == Numbers.WALL || checker == Numbers.OUT_OF_MAP){
 				System.out.println("벽이 있어 " + moveLen + "칸 만큼 이동할 수 없습니다.");
 				playerPos[0] -= dx[moveDirection - Numbers.DIRECTION_INT_DIFF];
 				playerPos[1] -= dy[moveDirection - Numbers.DIRECTION_INT_DIFF];
+				map.setSpecificLocation(playerPos[0], playerPos[1] , Numbers.PLAYER_POS);
 				break;
 			}else if(checker == Numbers.MONSTER || checker == Numbers.SAFEHOUSE || checker == Numbers.STORE || checker == Numbers.END){
 				System.out.println("이동 중 이벤트를 만났습니다.");
 				possibleLen += 1;
+				map.setSpecificLocation(playerPos[0], playerPos[1] , Numbers.PLAYER_POS);
 				break;
 			}
 		}
@@ -74,7 +78,7 @@ public class Field {
 		if(checker == Numbers.END) {this.finalBoss(); return 1;}
 
 		//일종의 행동이 끝나고 나면, 해당 칸을 그냥 PATH로 바꾼다.
-		map.setSpecificLocation(playerPos[0], playerPos[1], 0);
+		//map.setSpecificLocation(playerPos[0], playerPos[1], 0);
 		return 0;
 	}
  
