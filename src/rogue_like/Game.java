@@ -45,6 +45,13 @@ public class Game {
     	handler = new MapHandler(); //호출과 동시에 맵 로드
     	this.maps = handler.getMaps();
     	
+    	//현재 맵이 하나도 없는 경우 종료
+    	if (this.maps.length == 0) {
+    		System.out.println("현재 저장된 맵이 없습니다. 실행 파일의 위치에 있는 'maps' 폴더에 파일을 생성해주세요.");
+    		System.out.println("게임을 종료합니다...");
+        	System.exit(0);
+    	}
+    	
         for(int i = 0; i < maps.length; i++){
             if(!maps[i].getValid()){
                 System.out.println(maps[i].getMapName() + " 은 열 수 없습니다 (잘못된 형식의 맵입니다)");
