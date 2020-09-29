@@ -47,6 +47,7 @@ public class Wizard extends SkillInfo implements Skill {
         }else{
             monsters.get(target).attacked(player.getATK() * 0.7);
         }
+        attacked(player, monsters, 1);
 
         return 0;
     }

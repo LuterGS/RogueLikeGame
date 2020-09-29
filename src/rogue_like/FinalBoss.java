@@ -38,10 +38,6 @@ public class FinalBoss extends Life{
         return finalBoss;
     }
 
-    public double attack(){
-        return -1;
-    }
-
     public void finalAttack(ArrayList<Life> monsters){
 
         int select = random.nextInt(4) + 1;
