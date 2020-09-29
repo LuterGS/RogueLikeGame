@@ -17,6 +17,7 @@ public class Checker {
             try {
                 value = scan.nextInt();
             }catch(InputMismatchException e){
+            	System.out.println("숫자가 아닌 값을 입력하셨습니다. 제대로 된 값을 입력해주세요.");
                 value = 0;
             }finally{
                 scan.nextLine();

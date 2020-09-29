@@ -55,6 +55,7 @@ public class Game {
                                 "    안식처 수 : " + (maps[i].getSafehouseNum()) +
                                 "   상점 수 : " + (maps[i].getStoreNum())
                 );
+                validFlag = true;
             }
         }
         
@@ -87,10 +88,13 @@ public class Game {
             	Help.move();
             }
             else {
-                field.showField();
-                if(field.move(inputResult) == 1){
+                if(field.move(inputResult)){
+					System.out.println("마지막 보스는 사라졌습니다. 플레이해주셔서 감사합니다.");
+					System.out.println("건국대학교 2020 전공기초프로젝트2 Text-Based Rogue-Like game 제작팀");
+					System.out.println("고원재, 김우열, 윤동근, 이관석");
                     break;
                 }
+                field.showField();
             }
 
             if(!field.isPlayable()){

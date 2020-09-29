@@ -19,4 +19,8 @@ public class SkillInfo {
             System.out.println((i+1) + ". " + skillName[i] + "         " + skillInfo[i]);
         }
     }
+
+    public void printUseSkill(int skillnum, Life player){
+        System.out.println("===>" + player.getName() + " 이/가 " + skillName[skillnum] + " 시전!");
+    }
 }

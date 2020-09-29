@@ -20,11 +20,12 @@ public class Assassin extends SkillInfo implements Skill{
     
     
     @Override
-    public int Skill1(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill1(Life player, ArrayList<Life> monsters, int target) {
 
-        for(Monster monster: monsters) {
+        printUseSkill(0, player);
+        for(Life monster: monsters) {
             if (Math.random() < 0.5) {
-                System.out.printf("회피 실패! %.2f 만큼의 데미지를 입습니다.\n", monster.attack());
+                //System.out.printf("회피 실패! %.2f 만큼의 데미지를 입습니다.\n", monster.attack());
                 singleAttacked(player, monster, 1);
                 monster.attacked(monster.attack());
             } else {
@@ -35,13 +36,15 @@ public class Assassin extends SkillInfo implements Skill{
         return 0;
     }
 
-    public int Skill2(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill2(Life player, ArrayList<Life> monsters, int target) {
 
         double damage;
         if(Math.random() < 0.1) damage = player.getATK() * 2;
         else damage = player.getATK();
 
-        for(Monster monster: monsters){
+        printUseSkill(1, player);
+
+        for(Life monster: monsters){
             monster.attacked(damage);
         }
         attacked(player, monsters, 1);
@@ -49,8 +52,9 @@ public class Assassin extends SkillInfo implements Skill{
     }
 
     @Override
-    public int Skill3(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill3(Life player, ArrayList<Life> monsters, int target) {
 
+        printUseSkill(2, player);
         monsters.get(target).attacked(monsters.get(target).getMaxHP() * 0.3);
         attacked(player, monsters, 2);
 
@@ -58,9 +62,10 @@ public class Assassin extends SkillInfo implements Skill{
     }
     
     @Override
-    public int Skill4(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill4(Life player, ArrayList<Life> monsters, int target) {
 
-        for(Monster monster: monsters){
+        printUseSkill(3, player);
+        for(Life monster: monsters){
             if(monster.attack() < player.getMaxHP() * 0.15){
                 singleAttacked(player, monster, 1);
             }else{
@@ -71,14 +76,14 @@ public class Assassin extends SkillInfo implements Skill{
     }
 
     @Override
-    public int attacked(Player player, ArrayList<Monster> monsters, double ratio){
-        for(Monster monster: monsters){
+    public int attacked(Life player, ArrayList<Life> monsters, double ratio){
+        for(Life monster: monsters){
             singleAttacked(player, monster, ratio);
         }
         return 0;
     }
 
-    public void singleAttacked(Player player, Monster monster, double ratio){
+    public void singleAttacked(Life player, Life monster, double ratio){
         player.attacked((monster.attack() * ratio));
     }
 }

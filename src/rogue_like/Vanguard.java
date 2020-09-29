@@ -19,8 +19,9 @@ public class Vanguard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int Skill1(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill1(Life player, ArrayList<Life> monsters, int target) {
 
+        printUseSkill(0, player);
         monsters.get(target).attacked(player.getATK() * 2);
         player.setShield(player.getMaxShield());
         //System.out.println("방어막 돌격!" + monsters.get(target).getName() + " 에게" + Double.toString(player.getATK() * 2) + "만큼의 데미지를 주었다.");
@@ -32,19 +33,21 @@ public class Vanguard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int Skill2(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill2(Life player, ArrayList<Life> monsters, int target) {
 
+        printUseSkill(1, player);
         monsters.get(target).attacked(player.getShield());
         player.setShield(0.0);
         return 0;
     }
 
     @Override
-    public int Skill3(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill3(Life player, ArrayList<Life> monsters, int target) {
 
+        printUseSkill(2, player);
         int success_rate = rand.nextInt(31) + 120;
         double damage = player.ATK * 0.01 * success_rate;
-        for (Monster monster : monsters) {
+        for (Life monster : monsters) {
             monster.attacked(damage);
         }
         attacked(player, monsters, 1);
@@ -52,8 +55,9 @@ public class Vanguard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int Skill4(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill4(Life player, ArrayList<Life> monsters, int target) {
 
+        printUseSkill(3, player);
         double success_rate = Math.random();
         System.out.printf("%f%%의 확률로 곡예사 시전, ", success_rate * 100);
         if (Math.random() < success_rate){
@@ -69,20 +73,18 @@ public class Vanguard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int attacked(Player player, ArrayList<Monster> monsters, double ratio){
+    public int attacked(Life player, ArrayList<Life> monsters, double ratio){
 
-        for (Monster monster : monsters) {
-            if(monster.getHP() > 0.0){
-                if (player.getShield() > monster.getATK() * ratio) {
-                    player.setShield(player.getShield() - monster.getATK() * ratio);
-                    System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 " + player.getShield() + "로 감소");
-                } else {
-                    double damage = (monster.getATK() * ratio) - player.getShield();
-                    player.setShield(0.0);
-                    player.attacked(damage);
-                    //player.setHP(player.getHP() - damage);
-                    //System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 모두 소모되고 체력이 " + player.getHP() + "로 감소");
-                }
+        for (Life monster : monsters) {
+            if (player.getShield() > monster.getATK() * ratio) {
+                player.setShield(player.getShield() - monster.getATK() * ratio);
+                System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 " + player.getShield() + "로 감소");
+            } else {
+                double damage = (monster.getATK() * ratio) - player.getShield();
+                player.setShield(0.0);
+                player.attacked(damage);
+                //player.setHP(player.getHP() - damage);
+                //System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 모두 소모되고 체력이 " + player.getHP() + "로 감소");
             }
         }
 

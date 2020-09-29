@@ -20,21 +20,24 @@ public class Wizard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int Skill1(Player player, ArrayList<Monster> monsters, int target) {
+    public int Skill1(Life player, ArrayList<Life> monsters, int target) {
+        printUseSkill(0, player);
         monsters.get(target).attacked(player.getATK() * 2);
         attacked(player, monsters, 1);
         return 0;
     }
 
     @Override
-    public int Skill2(Player player,  ArrayList<Monster> monsters, int target) {
-        player.setHP(player.getMaxHP() * 0.1);
+    public int Skill2(Life player,  ArrayList<Life> monsters, int target) {
+        printUseSkill(1, player);
+        player.setHP(player.getHP() - (player.getMaxHP() * 0.1));
         return 0;
     }
 
     @Override
-    public int Skill3(Player player,  ArrayList<Monster> monsters, int target) {
+    public int Skill3(Life player,  ArrayList<Life> monsters, int target) {
 
+        printUseSkill(2, player);
         if(monsters.get(target).getHP() <= monsters.get(target).getMaxHP() * 0.5){
             if(Math.random() <= 0.5){
                 monsters.get(target).attacked(monsters.get(target).getMaxHP());
@@ -49,11 +52,12 @@ public class Wizard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int Skill4(Player player,  ArrayList<Monster> monsters, int target) {
+    public int Skill4(Life player,  ArrayList<Life> monsters, int target) {
 
         int selector;
         double damage;
 
+        printUseSkill(3, player);
         for(int i = 0; i < 5; i++){
             selector = rand.nextInt(monsters.size() + 1);
             damage = player.getATK() * ((Math.random() * 140) + 30.0) * 0.01;
@@ -68,14 +72,14 @@ public class Wizard extends SkillInfo implements Skill {
     }
 
     @Override
-    public int attacked(Player player, ArrayList<Monster> monsters, double ratio){
-        for(Monster monster: monsters){
+    public int attacked(Life player, ArrayList<Life> monsters, double ratio){
+        for(Life monster: monsters){
             singleAttacked(player, monster, ratio);
         }
         return 0;
     }
 
-    public void singleAttacked(Player player, Monster monster, double ratio){
+    public void singleAttacked(Life player, Life monster, double ratio){
         player.attacked((monster.attack() * ratio));
     }
 }

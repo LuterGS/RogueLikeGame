@@ -52,7 +52,7 @@ public class Player extends Life {
         return player;
     }
 
-    public void attack(ArrayList<Monster> monsters){
+    public void attack(ArrayList<Life> monsters){
 
         int select = Checker.getInt(1, 4, "사용할 스킬을 골라주세요 : ");
         int target = 0;
@@ -89,10 +89,14 @@ public class Player extends Life {
         skill.showSkill();
     }
 
+    public Skill getSkill(){
+        return this.skill;
+    }
+
     public void printPlayerInfo(){
         System.out.println("플레이어 이름 : " + this.name);
         System.out.printf("체력 : %.2f / %.2f\n", this.HP, this.maxHP);
-        if(this.maxShield == 20) System.out.printf("방어막 : %.2f / %.2f\n", this.shield, this.maxShield);
+        if(this.skill instanceof Vanguard) System.out.printf("방어막 : %.2f / %.2f\n", this.shield, this.maxShield);
         System.out.println("공격력 : " + this.ATK);
         System.out.println("방어력 : " + this.DEF);
     }
