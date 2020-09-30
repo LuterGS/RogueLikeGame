@@ -74,14 +74,14 @@ public class MapHandler {
         	StringTokenizer st = null; //첫줄을 읽고 분해 위한 객체
         	
         	/*
-             * 첫 줄 : (monsterNum)/(safehouseNum)/(storeNum)/(randomNum)
+             * 첫 줄 : (monsterNum)/(safehouseNum)/(storeNum)
              * 첫 줄을 읽고 나서 StringTokenizer를 이용해 각 변수에 저장
              * */
         	line = br.readLine().trim();
         	//첫번 째 줄 형식 맞는지 확인
         	if (!line.matches(Numbers.FIRST_LINE_REGEX)) {
-        		System.out.println("파일 내용 오류 - 1st line : " + line);
-        		map.setErrorMessage("파일 첫 줄 오류");
+        		//System.out.println("파일 내용 오류 - 1st line : " + line);
+        		map.setErrorMessage("파일 첫 줄 오류 : " + line);
         		return map;
         	}
         	st = new StringTokenizer(line, Numbers.MAP_CONTENTS_DELIM);
@@ -90,7 +90,7 @@ public class MapHandler {
 			map.setMonsterNum(Integer.parseInt(st.nextToken().trim()));
 			map.setSafehouseNum(Integer.parseInt(st.nextToken().trim()));
 			map.setStoreNum(Integer.parseInt(st.nextToken().trim()));
-			map.setRandomNum(Integer.parseInt(st.nextToken().trim()));
+			//map.setRandomNum(Integer.parseInt(st.nextToken().trim()));
         	
 			/*
         	 * 파일에 있는 맵이 직사각형이 아닐 때
@@ -104,17 +104,25 @@ public class MapHandler {
         	len = line.length();
         	//내용 확인
     		if (!line.matches(Numbers.MAP_LINE_REGEX)) {
-    			System.out.println("맵 구성 라인이 잘못되었습니다 : " + line);
-    			map.setErrorMessage("맵 구성이 잘못되었습니다.");
+    			//System.out.println(fileName + " : 맵 구성 라인이 잘못되었습니다 : " + line);
+    			map.setErrorMessage("맵 구성이 잘못되었습니다 : " + line);
     			return map;
     		}
     		temp_map.add(line);
     		
         	while ((line = br.readLine()) != null) {
-        		if (len != line.length() || (!line.matches(Numbers.MAP_LINE_REGEX))) {
-        			System.out.println("맵 구성 라인이 잘못되었습니다 : '" + line +"'");
-        			map.setErrorMessage("맵 구성이 잘못되었습니다.");
+        		//맵이 직사각형이 아닐 경우
+        		if (len != line.length()) {
+        			//System.out.println(fileName + " : 맵 구성 라인이 잘못되었습니다 : " + line);
+        			map.setErrorMessage("맵이 사각형꼴이 아닙니다 : " + line);
         			return map;
+        		}
+        		
+        		if (!line.matches(Numbers.MAP_LINE_REGEX)) {
+        			//System.out.println(fileName + " : 맵 구성 라인이 잘못되었습니다 : " + line);
+        			map.setErrorMessage("맵 구성이 잘못되었습니다 : " + line);
+        			return map;
+        			
         		}
         		temp_map.add(line);
         		
@@ -139,7 +147,7 @@ public class MapHandler {
             	}
         	} catch (IndexOutOfBoundsException e) {
         		map.setErrorMessage("맵에는 0~9까지 숫자만 올 수 있습니다");
-            	System.out.println(map.getErrorMessage());
+            	//System.out.println(map.getErrorMessage());
             	return map;
         	}
         	
@@ -177,66 +185,57 @@ public class MapHandler {
         //검사 통과 후 맵에 대입
 		map.setMap(intCast(input));
         
-        /*
-         * 맵이 완전히 유효 (시작과 끝이 있는 맵인지, entity들이 지정된 비율 내에 있는지...등등)한지
-         * 확인 후에 맵의 PATH에 monster, store, safehouse를 배치
-         */
-        setEntity(map, Numbers.MONSTER);
-        setEntity(map, Numbers.SAFEHOUSE);
-        setEntity(map, Numbers.STORE);
-        
-        
         return map;
     }
     
-    private static void setEntity(Map map, int entity) {
-		// TODO Auto-generated method stub
-		int r = 0;
-		int c = 0;
-		int count = 0;
-		
-		switch (entity) {
-		case Numbers.MONSTER:
-			count = map.getMonsterNum();
-			break;
-		case Numbers.SAFEHOUSE:
-			count = map.getSafehouseNum();
-			break;
-		case Numbers.STORE:
-			count = map.getStoreNum();
-			break;
-		default:
-			//nothing
-			break;
-		}
-		
-		//개수가 잘못되면 무한 루프로 갈 수 있으므로 반드시 맵 형식 확인한 후에 사용
-		for (int i=0; i<count; i++) {
-			r = getRandomInt(map.getMapRow() - 1, 0);
-			c = getRandomInt(map.getMapCol() - 1, 0);
-			
-			if (map.getSpecificLocation(r, c) == Numbers.PATH) {
-				map.setSpecificLocation(r, c, entity);
-			}
-			else {
-				i--;
-			}
-		}
-    }
-    
-    private static int getRandomInt(int max, int min) {
-		return (int)(Math.random() * max) + min;
-	}
+//    private static void setEntity(Map map, int entity) {
+//		// TODO Auto-generated method stub
+//		int r = 0;
+//		int c = 0;
+//		int count = 0;
+//		
+//		switch (entity) {
+//		case Numbers.MONSTER:
+//			count = map.getMonsterNum();
+//			break;
+//		case Numbers.SAFEHOUSE:
+//			count = map.getSafehouseNum();
+//			break;
+//		case Numbers.STORE:
+//			count = map.getStoreNum();
+//			break;
+//		default:
+//			//nothing
+//			break;
+//		}
+//		
+//		//개수가 잘못되면 무한 루프로 갈 수 있으므로 반드시 맵 형식 확인한 후에 사용
+//		for (int i=0; i<count; i++) {
+//			r = getRandomInt(map.getMapRow() - 1, 0);
+//			c = getRandomInt(map.getMapCol() - 1, 0);
+//			
+//			if (map.getSpecificLocation(r, c) == Numbers.PATH) {
+//				map.setSpecificLocation(r, c, entity);
+//			}
+//			else {
+//				i--;
+//			}
+//		}
+//    }
+//    
+//    private static int getRandomInt(int max, int min) {
+//		return (int)(Math.random() * max) + min;
+//	}
 
 	//맵 검사 후 Field에서 불러올때 유효성을 검사하도록 하면 된다.
 	//여기서 이렇게 다 처리해줄 필요가 없음
 	public static boolean validate(String[][] stringMap, Map map) {
-    	if (!Checker.isRect(stringMap)) {
-    		map.setErrorMessage("맵이 사각형꼴이 아닙니다");
-        	System.out.println(map.getErrorMessage());
-        	return false;
-    	}
-        else if(!Checker.isSingleDigitInt(stringMap)) {
+//    	if (!Checker.isRect(stringMap)) {
+//    		map.setErrorMessage("맵이 사각형꼴이 아닙니다");
+//        	System.out.println(map.getErrorMessage());
+//        	return false;
+//    	}
+		if(!Checker.isSingleDigitInt(stringMap)) {
         	map.setErrorMessage("맵에는 0~9까지 숫자만 올 수 있습니다");
         	System.out.println(map.getErrorMessage());
         	return false;
@@ -254,6 +253,11 @@ public class MapHandler {
         else if(!Checker.isReachable(intCast(stringMap))) {
         	map.setErrorMessage("시작지점에서 목표까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다");
         	System.out.println(map.getErrorMessage());
+        	return false;
+        }
+		//개수 비교 검사 추가
+        else if (!Checker.isSettable(intCast(stringMap), map)) {
+        	map.setErrorMessage("지형물의 수가 갈 수 있는 길과 같거나 더 많습니다.");
         	return false;
         }
     	

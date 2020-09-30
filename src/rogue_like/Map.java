@@ -10,7 +10,7 @@ public class Map {
     private int monsterNum;
     private int safehouseNum;
     private int storeNum;
-    private int randomNum;
+    //private int randomNum; //미사용 삭제
     private String mapName;
     private String errorMessage;
     private boolean isValid;
@@ -24,7 +24,7 @@ public class Map {
         storeNum = -1;
         isValid = false;             // 이거도 valid할때만 true를 return 하도록 해야함.
         mapName = fileName.split(Numbers.DOT_TXT)[0];// 임시로 이렇게 설정해뒀지만, 여기서 mapName은 텍스트 파일의 이름을 가지도록 설정해야 함
-        randomNum = -1;              // 랜덤한 이벤트가 일어날 장소의 개수
+        //randomNum = -1;              // 랜덤한 이벤트가 일어날 장소의 개수
         errorMessage = "";          // 만약 맵 체크 시 오류가 발생하면 여기에 어떤 오류가 발생했는지 넣어줌 (이건 막 생각한거긴 함)
     }
     
@@ -96,9 +96,9 @@ public class Map {
         this.storeNum = storeNum;
     }
 
-    public void setRandomNum(int randomNum) {
-        this.randomNum = randomNum;
-    }
+//    public void setRandomNum(int randomNum) {
+//        this.randomNum = randomNum;
+//    }
 
     public int getSpecificLocation(int x, int y){ return map[x][y];}
 

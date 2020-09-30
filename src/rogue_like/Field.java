@@ -1,6 +1,8 @@
 package rogue_like;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class Field {
 	Random rand = new Random();
@@ -85,13 +87,14 @@ public class Field {
 
     // 기존에 주석으로 정의했던 부분을 Numbers 클래스에 상수로 선언
 	// 기존에 나누어져있던 3개의 메소드를 하나로 합침
+    //targetNum이 1일 경우 아예 할당하는 반복문이 실행되지 않기 때문에 수정했습니다.
     private void assignField(int targetNum, int target){
-    	for(int i = 0; i < targetNum - 1;) {			//이관석 -> 아주아주 좋은 반복문이라 생각합니다!
+    	for(int i = 0; i < targetNum;) {			//이관석 -> 아주아주 좋은 반복문이라 생각합니다!
     		int randNum1 = rand.nextInt(map.getMapRow());
     		int randNum2 = rand.nextInt(map.getMapCol());
-    		if(map.getSpecificLocation(randNum1, randNum2) == 0) {
+    		if(map.getSpecificLocation(randNum1, randNum2) == Numbers.PATH) {
     			map.setSpecificLocation(randNum1, randNum2, target);
-    			++i;
+    			i++;
     		}
     	}
 	}
@@ -148,6 +151,7 @@ public class Field {
 							
 			if(player.getHP() <= 0.0){
 				//게임 오버
+				System.out.println("GAMEOVER");
 				break;
 			}
 			if(/*몬스터들이 모두 죽었을 때*/monsters.isEmpty()){

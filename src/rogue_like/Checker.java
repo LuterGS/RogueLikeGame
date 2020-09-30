@@ -150,6 +150,17 @@ public class Checker {
     	else return false;
     }
     
+    public static boolean isSettable(int[][] map, Map tmap) {
+    	//맵 내용이 아직 할당 안된 상태이므로 tmap을 이용할 수 없음!
+    	int pathNum = map.length*map[0].length;
+    	int entityNum = tmap.getSafehouseNum() + tmap.getStoreNum() + tmap.getMonsterNum();
+    	if (pathNum <= entityNum) {
+    		return false;
+    	}
+    	else
+    		return true;
+    }
+    
     /*
      * @param: 사용자가 움직이기 위해 입력한 문자열
      * 입력한 문자열이 올바르면 return {direction, length}
