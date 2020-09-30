@@ -77,7 +77,7 @@ public class Vanguard extends SkillInfo implements Skill {
 
         for (Life monster : monsters) {
             if (player.getShield() > monster.getATK() * ratio) {
-                player.setShield(player.getShield() - monster.getATK() * ratio);
+                player.setShield(player.getShield() - (monster.getATK() * ratio));
                 System.out.println(player.getName() + "가 " + monster.getName() + "에게 공격받음! 방어막이 " + player.getShield() + "로 감소");
             } else {
                 double damage = (monster.getATK() * ratio) - player.getShield();
