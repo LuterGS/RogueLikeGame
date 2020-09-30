@@ -86,7 +86,7 @@ public class Field {
     // 기존에 주석으로 정의했던 부분을 Numbers 클래스에 상수로 선언
 	// 기존에 나누어져있던 3개의 메소드를 하나로 합침
     private void assignField(int targetNum, int target){
-    	for(int i = 0; i < targetNum;) {			//이관석 -> 아주아주 좋은 반복문이라 생각합니다!
+    	for(int i = 0; i < targetNum - 1;) {			//이관석 -> 아주아주 좋은 반복문이라 생각합니다!
     		int randNum1 = rand.nextInt(map.getMapRow());
     		int randNum2 = rand.nextInt(map.getMapCol());
     		if(map.getSpecificLocation(randNum1, randNum2) == 0) {
