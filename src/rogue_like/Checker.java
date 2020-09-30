@@ -1,7 +1,5 @@
 package rogue_like;
 
-import java.lang.NumberFormatException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -11,18 +9,31 @@ public class Checker {
     
     public static String getInput() {
     	String input = "";
-    	int int_input;
+    	
+    	//라인 단위로 받아서 처리
     	try {
-    		int_input = scan.nextInt();
-    		input = String.valueOf(int_input);
-    	} catch(InputMismatchException e) {
-	    	input = scan.nextLine();
+    		input = scan.nextLine();
+    	} catch (Exception e) {
+    		return null;
     	} finally {
     		if (input.equals("종료")) {
 	    		System.out.println("게임을 종료합니다.");
 	    		System.exit(0);
 	    	}
     	}
+    	
+//    	int int_input;
+//    	try {
+//    		int_input = scan.nextInt();
+//    		input = String.valueOf(int_input);
+//    	} catch(InputMismatchException e) {
+//	    	input = scan.nextLine();
+//    	} finally {
+//    		if (input.equals("종료")) {
+//	    		System.out.println("게임을 종료합니다.");
+//	    		System.exit(0);
+//	    	}
+//    	}
     	return input;
     }
 
