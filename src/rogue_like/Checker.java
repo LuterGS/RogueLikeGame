@@ -39,12 +39,12 @@ public class Checker {
             	System.out.println("숫자가 아닌 값을 입력하셨습니다. 제대로 된 값을 입력해주세요.");
                 value = 0;
             }finally{
-                scan.nextLine();
+                //scan.nextLine();
                 if (value >= min && value <= max) {
                     return value;
                 }else {
                 	System.out.println("잘못 입력하셨습니다. " + min + " ~ " + max + " 의  정수를 입력해주세요.");
-                    System.out.print(printInfo);
+                	System.out.print(printInfo);
                 }
             }
         }
@@ -61,7 +61,7 @@ public class Checker {
             }catch (NumberFormatException e){
                 value = 0;
             }finally{
-                scan.nextLine();
+                //scan.nextLine();
                 if (value >= 1 && value <= maps.length) {
                 	if (!maps[value - 1].getValid())
                 		System.out.println(maps[value - 1].getMapName() + " 맵은 열 수 없습니다. 다른 맵을 선택해주세요.");
