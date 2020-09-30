@@ -1,5 +1,6 @@
 package rogue_like;
 
+import java.lang.NumberFormatException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -7,6 +8,23 @@ import java.util.StringTokenizer;
 public class Checker {
 
     private static final Scanner scan = new Scanner(System.in);
+    
+    public static String getInput() {
+    	String input = "";
+    	int int_input;
+    	try {
+    		int_input = scan.nextInt();
+    		input = String.valueOf(int_input);
+    	} catch(InputMismatchException e) {
+	    	input = scan.nextLine();
+    	} finally {
+    		if (input.equals("종료")) {
+	    		System.out.println("게임을 종료합니다.");
+	    		System.exit(0);
+	    	}
+    	}
+    	return input;
+    }
 
     public static int getInt(int min, int max, String printInfo){
 
@@ -15,17 +33,18 @@ public class Checker {
 
         while(true){
             try {
-                value = scan.nextInt();
-            }catch(InputMismatchException e){
+            	value = Integer.parseInt(getInput());
+                //value = scan.nextInt();
+            }catch(NumberFormatException e){
             	System.out.println("숫자가 아닌 값을 입력하셨습니다. 제대로 된 값을 입력해주세요.");
                 value = 0;
             }finally{
-                scan.nextLine();
+                //scan.nextLine();
                 if (value >= min && value <= max) {
                     return value;
                 }else {
                 	System.out.println("잘못 입력하셨습니다. " + min + " ~ " + max + " 의  정수를 입력해주세요.");
-                    System.out.print(printInfo);
+                	System.out.print(printInfo);
                 }
             }
         }
@@ -38,18 +57,21 @@ public class Checker {
 
         while(true){
             try {
-                value = scan.nextInt();
-            }catch (InputMismatchException e){
+                value = Integer.parseInt(getInput());
+            }catch (NumberFormatException e){
                 value = 0;
             }finally{
-                scan.nextLine();
-                if (value >= 1 && value <= maps.length && maps[value - 1].getValid()) {
-                    return value - 1;
-                }else {
-                	System.out.println("잘못 입력하셨습니다. 1 ~ " + maps.length + " 의 정수를 입력해주세요.");
-                    System.out.print(printInfo);
+                //scan.nextLine();
+                if (value >= 1 && value <= maps.length) {
+                	if (!maps[value - 1].getValid())
+                		System.out.println(maps[value - 1].getMapName() + " 맵은 열 수 없습니다. 다른 맵을 선택해주세요.");
+                	else
+                		return value - 1;
                 }
+                else 
+                	System.out.println("잘못 입력하셨습니다. 1 ~ " + maps.length + " 의 정수를 입력해주세요.");
             }
+            System.out.print(printInfo);
         }
     }
 
@@ -181,11 +203,14 @@ public class Checker {
 
     public static int[] getFieldMoveInput(String inputString){
 
-    	if(inputString.equals("맵 출력")){
-    		return new int[]{0, 0};
-		}
-    	else if(inputString.equals("도움말")) {
+//    	if(inputString.equals("맵 출력")){
+//    		return new int[]{0, 0};
+//		}
+    	if(inputString.equals("도움말")) {
     		return new int[]{1, 0};
+    	}
+    	else if(inputString.equals("종료")) {
+    		return new int[]{2, 0};
     	}
     	else return moveCheck(inputString);
 	}

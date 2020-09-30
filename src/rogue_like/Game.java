@@ -1,6 +1,5 @@
 package rogue_like;
 
-import java.util.Scanner;
 
 public class Game {
 	private MapHandler handler;
@@ -13,7 +12,8 @@ public class Game {
         // 게임 인트로 메뉴
         gameIntro();
         System.out.println("Game start!");
-
+        System.out.println("게임을 종료하려면 언제든지 \"종료\"를 입력하세요!");
+        
         // 맵 선택
         Map gameMap = chooseMap();
         
@@ -34,7 +34,6 @@ public class Game {
             System.out.println("게임을 종료합니다.");
             System.exit(0);
         }
-
     }
 
     private Map chooseMap(){
@@ -45,10 +44,11 @@ public class Game {
         //maps = Map.loadMaps(); //기존 구문
     	handler = new MapHandler(); //호출과 동시에 맵 로드
     	this.maps = handler.getMaps();
-    	
+    	System.out.println("\n-----------------------------------------------------------------------------------------------");
+    	System.out.println("맵 목록");
         for(int i = 0; i < maps.length; i++){
             if(!maps[i].getValid()){
-                System.out.println(maps[i].getMapName() + " 은 열 수 없습니다. " + maps[i].getErrorMessage());
+                System.out.println((i+1) + ". "+ maps[i].getMapName() + " 은 열 수 없습니다. " + maps[i].getErrorMessage());
             }else{
                 System.out.println((i+1) + ". 맵 이름 : " + maps[i].getMapName() +
                                 "  몬스터 수 : " + (maps[i].getMonsterNum()) +
@@ -58,7 +58,7 @@ public class Game {
                 validFlag = true;
             }
         }
-        
+        System.out.println("-----------------------------------------------------------------------------------------------\n");
         //사용할 수 있는 맵이 없을 경우 종료
     	if (!validFlag) {
     		System.out.println("현재 저장된 맵이 없거나, 정상적으로 로드할 수 있는 맵 파일이 없습니다."); 
@@ -74,20 +74,20 @@ public class Game {
 
     private void playGame(Field field){
 
-        Scanner scan = new Scanner(System.in);
         int[] inputResult;
+        field.showField();
         while(true){
-            System.out.print("\"맵 출력\"을 입력하면 맵을 출력하고, 방향+칸수 혹은 칸수+방향을 입력하면 이동합니다. 도움말을 보려면 \"도움말\"을 입력하세요. 값을 입력해 주세요 : ");
-            inputResult = Checker.getFieldMoveInput(scan.nextLine());
+            System.out.print("방향+칸수 혹은 칸수+방향을 입력하면 이동합니다. 도움말을 보려면 \"도움말\"을 입력하세요. 값을 입력해 주세요 : ");
+            inputResult = Checker.getFieldMoveInput(Checker.getInput());
             if(inputResult == null) {
                 System.out.println("잘못된 입력입니다! 도움말을 보려면 \"도움말\"을 입력하세요");
-            }else if(inputResult[0] == 0){
-                field.showField();
-            }else if(inputResult[0] == 1) {
-            	Help.mapIcons();
-            	Help.move();
             }
-            else {
+            //else if(inputResult[0] == 0){
+            //    field.showField();
+            //}
+        	else if(inputResult[0] == 1) {
+            	Help.general();
+            }else {
                 if(field.move(inputResult)){
 					System.out.println("마지막 보스는 사라졌습니다. 플레이해주셔서 감사합니다.");
 					System.out.println("건국대학교 2020 전공기초프로젝트2 Text-Based Rogue-Like game 제작팀");

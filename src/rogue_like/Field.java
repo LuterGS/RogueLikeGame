@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Field {
 	Random rand = new Random();
-	Scanner sc = new Scanner(System.in);
+	//Scanner sc = new Scanner(System.in);
     private Map map;// 
     private Player player;// 0:길, 1:벽, 2:몬스터, 3:휴식처, 4:상점, 8:시작, 9:끝
 
@@ -98,6 +98,7 @@ public class Field {
 
     public void showField(){
         //필드의 정보를 보여주는 메소드
+    	System.out.println();
     	for(int i = 0; i < map.getMapRow(); i++) {
     		for(int j = 0; j < map.getMapCol(); j++) {
     			System.out.print(changeMapToSymbol(map.getSpecificLocation(i, j)));
@@ -105,6 +106,7 @@ public class Field {
     		}
     		System.out.println();
     	}
+    	System.out.println();
     }
 
     public void meetMonster(){
