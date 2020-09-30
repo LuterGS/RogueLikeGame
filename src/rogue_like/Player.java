@@ -1,12 +1,10 @@
 package rogue_like;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Player extends Life {
 
     private static Player player = null;
-    private Scanner scan = new Scanner(System.in);
     private Skill skill = null;
     /*
      * 현재 location에 할당되는 값이 없습니다. 
@@ -21,7 +19,7 @@ public class Player extends Life {
         int skillSelect;
 
         System.out.print("플레이어의 이름을 입력해주세요 : ");
-        this.name = scan.nextLine();
+        this.name = Checker.getInput();
         skillSelect = Checker.getInt(1, 3, "플레이어의 직업을 선택해주세요. 1번은 Vanguard, 2번은 Assassin, 3번은 Wizard 입니다 : ");
 
         //플레이어 스탯 조정 부분. 난이도를 추가한다면 여기를 좀 더 디테일하게 다듬어야함
