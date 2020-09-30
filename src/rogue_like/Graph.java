@@ -92,23 +92,9 @@ class Graph {
             } 
         }
         for(int i = 0; i < visited.length; i++) {
-        	System.out.println(visited[i]);
-        }
-        for(int i = 0; i < visited.length; i++) {
         	if(!visited[i])
         		return false;
         }
         return true;
     }
-    /*public static void main(String[] args) {
-    	String[][] dummy_input = {{"1", "9", "1", "1", "1"}, // 0:길, 1:벽, 8:시작, 9:끝
-				  				  {"1", "0", "1", "0", "0"},
-				  				  {"1", "0", "0", "0", "0"},
-				  				  {"1", "1", "1", "1", "0"},
-				  				  {"1", "1", "1", "1", "8"}};
-    	Map map = new Map("test_dummy");
-    	map.validate(dummy_input);
-    	Graph g = new Graph(map);
-    	System.out.println(g.isTraversable());
-    }*/
 }

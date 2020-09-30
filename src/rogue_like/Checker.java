@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 public class Checker {
 
     private static final Scanner scan = new Scanner(System.in);
+    
+
 
     public static int getInt(int min, int max, String printInfo){
 
@@ -43,13 +45,16 @@ public class Checker {
                 value = 0;
             }finally{
                 scan.nextLine();
-                if (value >= 1 && value <= maps.length && maps[value - 1].getValid()) {
-                    return value - 1;
-                }else {
-                	System.out.println("잘못 입력하셨습니다. 1 ~ " + maps.length + " 의 정수를 입력해주세요.");
-                    System.out.print(printInfo);
+                if (value >= 1 && value <= maps.length) {
+                	if (!maps[value - 1].getValid())
+                		System.out.println(maps[value - 1].getMapName() + " 맵은 열 수 없습니다. 다른 맵을 선택해주세요.");
+                	else
+                		return value - 1;
                 }
+                else 
+                	System.out.println("잘못 입력하셨습니다. 1 ~ " + maps.length + " 의 정수를 입력해주세요.");
             }
+            System.out.print(printInfo);
         }
     }
 
@@ -186,6 +191,9 @@ public class Checker {
 		}
     	else if(inputString.equals("도움말")) {
     		return new int[]{1, 0};
+    	}
+    	else if(inputString.equals("종료")) {
+    		return new int[]{2, 0};
     	}
     	else return moveCheck(inputString);
 	}
