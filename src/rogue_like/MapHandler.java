@@ -237,22 +237,22 @@ public class MapHandler {
 //    	}
 		if(!Checker.isSingleDigitInt(stringMap)) {
         	map.setErrorMessage("맵에는 0~9까지 숫자만 올 수 있습니다");
-        	System.out.println(map.getErrorMessage());
+        	//System.out.println(map.getErrorMessage());
         	return false;
         }
         else if(!Checker.no0sInEdge(intCast(stringMap))) {
         	map.setErrorMessage("맵 가장자리에는 0이 올 수 없습니다");
-        	System.out.println(map.getErrorMessage());
+        	//System.out.println(map.getErrorMessage());
         	return false;
         }
         else if(!Checker.hasStartEnd(intCast(stringMap))) {
         	map.setErrorMessage("맵에 시작지점 또는 목표가 없습니다");
-        	System.out.println(map.getErrorMessage());
+        	//System.out.println(map.getErrorMessage());
         	return false;
         }
         else if(!Checker.isReachable(intCast(stringMap))) {
         	map.setErrorMessage("시작지점에서 목표까지 갈 수 없거나, 접근할 수 없는 공간(0)이 있습니다");
-        	System.out.println(map.getErrorMessage());
+        	//System.out.println(map.getErrorMessage());
         	return false;
         }
 		//개수 비교 검사 추가
