@@ -103,7 +103,8 @@ public class Map {
     public int getSpecificLocation(int x, int y){ return map[x][y];}
 
     public void setSpecificLocation(int x, int y, int target){
-        map[x][y] = target;
+        // 바꾸고자 하는 부분이 START일 경우 바꾸지 않음
+        if(map[x][y] != Numbers.START) map[x][y] = target;
     }
 
     public boolean getValid() {

@@ -9,31 +9,38 @@ public class Game {
     private Field field;
 
     public Game(){
+
         // 게임 인트로 메뉴
-        gameIntro();
+        System.out.println("Rogue Like Game에 오신 것을 환영합니다!");
         System.out.println("Game start!");
         System.out.println("게임을 종료하려면 언제든지 \"종료\"를 입력하세요!");
-        
-        // 맵 선택
-        Map gameMap = chooseMap();
-        
+
         // 플레이어 생성
         this.player = Player.makeOne();
-        this.field = new Field(gameMap, this.player);
 
-        // 게임 플레이
-        playGame(this.field);
+
+        while(true){
+            // 맵 선택
+            Map gameMap = chooseMap();
+
+            // 필드 생성
+            this.field = new Field(gameMap, this.player);
+
+            // 게임 플레이
+            playGame(this.field);
+
+            // 게임이 끝났으면 플레이어의 직업을 변경할 건지 물어봄 및 체력/방어막 초기화
+            rechargePlayer(player);
+        }
     }
 
-    private void gameIntro(){
+    private void rechargePlayer(Player player){
 
-        System.out.println("게임에 오신 것을 환영합니다!");
-        System.out.println("게임을 시작하려면 1번을, 게임을 끝내려면 2번을 눌러주세요!");
-        int value = Checker.getInt(1, 2, "1이나 2 중 하나의 값을 골라주세요: ");
-        if(value == 2){
-            System.out.println("게임을 종료합니다.");
-            System.exit(0);
-        }
+        System.out.println("게임을 재시작합니다.");
+        System.out.println("플레이어의 직업을 변경할 수 있습니다.");
+        player.changeSkill(Checker.getInt(1, 3, "플레이어의 직업을 선택해주세요. 1번은 Vanguard, 2번은 Assassin, 3번은 Wizard 입니다 : "));
+        if(player.getSkill() instanceof Vanguard) player.setShield(player.getMaxShield());
+        player.setHP(player.getMaxHP());
     }
 
     private Map chooseMap(){
@@ -72,7 +79,7 @@ public class Game {
         return maps[value];
     }
 
-    private void playGame(Field field){
+    private boolean playGame(Field field){
 
         int[] inputResult;
         field.showField();
@@ -92,14 +99,14 @@ public class Game {
 					System.out.println("마지막 보스는 사라졌습니다. 플레이해주셔서 감사합니다.");
 					System.out.println("건국대학교 2020 전공기초프로젝트2 Text-Based Rogue-Like game 제작팀");
 					System.out.println("고원재, 김우열, 윤동근, 이관석");
-                    break;
+                    return true;
                 }
                 field.showField();
             }
 
             if(!field.isPlayable()){
                 System.out.println("게임에서 패배했습니다! 게임을 종료합니다");
-                break;
+                return true;
             }
         }
         //필드 생성한거 토대로 게임함.
