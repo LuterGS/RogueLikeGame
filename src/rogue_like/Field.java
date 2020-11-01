@@ -25,7 +25,7 @@ public class Field {
     }
 
     public boolean isPlayable(){
-    	if(player.getHP() < 0.0){
+    	if(player.getHP() <= 0.0){
     		System.out.println("플레이어 " + player.getName() + "이/가 사망했습니다!");
     		return false;
 		}
