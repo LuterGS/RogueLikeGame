@@ -32,10 +32,7 @@ public class FinalBoss extends Life{
     }
 
     public static FinalBoss endOfGame(Player player){
-        if(finalBoss == null){
-            finalBoss = new FinalBoss(player);
-        }
-        return finalBoss;
+        return new FinalBoss(player);
     }
 
     public void finalAttack(ArrayList<Life> monsters){

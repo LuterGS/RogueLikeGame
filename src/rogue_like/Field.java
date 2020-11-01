@@ -295,7 +295,9 @@ public class Field {
     	playerList.add(player);
 
     	System.out.println("최후의 관문에 도착하셨습니다. 마지막 보스를 상대하고 승리하세요!");
-    	if(player.getSkill() instanceof Vanguard) System.out.println("마지막 보스를 위해, 체력과 방어막이 모두 회복됩니다.");
+    	if(player.getSkill() instanceof Vanguard){
+    		System.out.println("마지막 보스를 위해, 체력과 방어막이 모두 회복됩니다.");
+		}
     	else System.out.println("마지막 보스를 위해, 체력이 모두 회복됩니다.");
 
 		//게임 오버
