@@ -92,9 +92,10 @@ public class Game {
             //else if(inputResult[0] == 0){
             //    field.showField();
             //}
-        	else if(inputResult[0] == 1) {
-            	Help.general();
-            }else {
+//        	else if(inputResult[0] == 1) {
+//            	Help.general();
+//            }
+            else {
                 if(field.move(inputResult)){
 					System.out.println("마지막 보스는 사라졌습니다. 플레이해주셔서 감사합니다.");
 					System.out.println("건국대학교 2020 전공기초프로젝트2 Text-Based Rogue-Like game 제작팀");

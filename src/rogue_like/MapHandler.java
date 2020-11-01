@@ -246,7 +246,7 @@ public class MapHandler {
         	return false;
         }
         else if(!Checker.hasStartEnd(intCast(stringMap))) {
-        	map.setErrorMessage("맵에 시작지점 또는 목표가 없습니다");
+        	map.setErrorMessage("맵에 시작지점 또는 목표가 없거나 너무 많습니다");
         	//System.out.println(map.getErrorMessage());
         	return false;
         }

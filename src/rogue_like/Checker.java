@@ -20,6 +20,9 @@ public class Checker {
 	    		System.out.println("게임을 종료합니다.");
 	    		System.exit(0);
 	    	}
+    		else if(input.equals("도움말")) {
+    			Help.general();
+    		}
     	}
     	
 //    	int int_input;
@@ -128,15 +131,15 @@ public class Checker {
     }
     
     public static boolean hasStartEnd(int[][] map) {
-    	boolean start_flag = false;
-    	boolean end_flag = false;
+    	int start_flag = 0;
+    	int end_flag = 0;
     	for(int i = 0; i < map.length; i++) {
     		for(int j = 0; j < map[0].length; j++) {
     			if(map[i][j] == Numbers.START)
-    				start_flag = true;
+    				start_flag++;
     			else if(map[i][j] == Numbers.END)
-    				end_flag = true;
-    			if(start_flag && end_flag)
+    				end_flag++;
+    			if((start_flag == 1) && (end_flag == 1))
     				return true;
     		}
     	}
@@ -228,13 +231,14 @@ public class Checker {
 //    	if(inputString.equals("맵 출력")){
 //    		return new int[]{0, 0};
 //		}
-    	if(inputString.equals("도움말")) {
-    		return new int[]{1, 0};
-    	}
-    	else if(inputString.equals("종료")) {
-    		return new int[]{2, 0};
-    	}
-    	else return moveCheck(inputString);
+//    	if(inputString.equals("도움말")) {
+//    		return new int[]{1, 0};
+//    	}
+//    	else if(inputString.equals("종료")) {
+//    		return new int[]{2, 0};
+//    	}
+    	//else 
+    	return moveCheck(inputString);
 	}
 
 	public static int directionStrToInt(String direction){
